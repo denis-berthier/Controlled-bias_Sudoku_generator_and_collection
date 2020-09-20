@@ -12,15 +12,8 @@ In 2009, I defined a new type of generator, which I called the **_controlled-bia
 
 
 ## 2. The contents of this repository<br>
-This repository consists mainly of three folders: CB-GLOBAL-DATA,  SMALL-CB-COLLECTIONS and PROGRAMS.<br><br>
+This repository consists mainly of three folders: SMALL-CB-COLLECTIONS, CB-RESULTS and PROGRAMS.<br><br>
 
-### The CB-GLOBAL-DATA folder contains various controlled-bias results:<br>
-* "puzzles.txt" is the full collection of 5,926,343 puzzles I generated using the controlled-bias generator, used in [PBCS] to study the distribution of minimal puzzles. However, due to restriction on the size of files in GitHub, it is split into 12 parts;<br>
-* "nb-clues.txt" is the corresponding collection of their numbers of clues;<br>
-* "W-ratings.txt" is the corresponding collection of their W-ratings (with 0.1 replacing 0);<br>
-* "nb-tries" is the corresponding collection of the number of complete grids used by the controlled-bias generator before the puzzle was obtained;<br>
-* "SER-ratings" is the corresponding collection of the Sudoku Explainer ratings, but lmited to the first 3,037,717 puzzles.
-<br><br>
 
 ### The SMALL-CB-COLLECTIONS folder contains independent controlled-bias collections of puzzles.<br>
 In practice, it is easier to do separate computations on several small collections than on a very large one.<br>
@@ -28,8 +21,16 @@ But one cannot choose arbitrary subparts of the global puzzles file: the results
 Each of the 129 files in this folder consists of a minimal collection necessary to run controlled-bias computations.<br>
 The name of each file is the seed used to generate random numbers in the controlled-bias generator (but this is irrelevant).<br>
 Files have different sizes, due to the generating method. The smallest ones have about 21,000 puzzles.<br>
-Some files are about four times larger than other ones (and thus have about 84,000 puzzles), because each full grid was submitted to the controlled-bias generator four times instead of one in the other cases. This has no impact on controlled-bias computations based on them.<br>
-Each of the large puzzle files in CB-GLOBAL-DATA is the union of groups of these atomic files, as described in the Excel file: Total.xlsx (in the Docs folder)
+Some files are about four times larger than other ones (and thus have about 84,000 puzzles), because each complete grid was submitted to the controlled-bias generator four times instead of one in the other cases. This has no impact on controlled-bias computations based on them.<br>
+<br><br>
+
+### The CB-GLOBAL-DATA folder contains various controlled-bias results:<br>
+* "puzzles.txt" is the full collection of 5,926,343 puzzles I generated using the controlled-bias generator, used in [PBCS] to study the distribution of minimal puzzles. However, due to restriction on the size of files in GitHub, it is not to be found anywhere in this repository. You can build it by concatenating the individual files present in the SMALL-CB-COLLECTIONS folder, following the order of their presence in the Excel file: Total.xlsx (in the Docs folder)
+
+* "nb-clues.txt" is the corresponding collection of their numbers of clues, in the same order;<br>
+* "W-ratings.txt" is the corresponding collection of their W-ratings (with 0.1 replacing 0), in the same order;<br>
+* "nb-tries" is the corresponding collection of the number of complete grids used by the controlled-bias generator before the puzzle was obtained, in the same order;<br>
+* "SER-ratings" is the corresponding collection of the Sudoku Explainer ratings, in the same order, but lmited to the first 3,037,717 puzzles.
 <br><br>
 
 
