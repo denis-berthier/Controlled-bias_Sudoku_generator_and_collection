@@ -1,0 +1,39 @@
+This file contains my notes on the modification to Brian Turner's bb_sudoku_solver.cpp code in order to convert it to a library
+
+1) Changed the function name from Solver to bb_Solver to prevent conflicts
+2) Changed some parameters from char to int and the buffer to int * pointer
+3) Moved the InitTables from the mainline to the bb_sudoku_solver.cpp code
+4) Changes the function name from InitTables to bb_InitTables to prevent conflicts
+5) Rewrote DecodePuzzleString to simplify and converted to use the calling (int *) buffer pointer
+6) Generated the bb_solver.h header for usage in an external program
+7) Changed the bb_sudoku_tables.h to conform to the new calling sequence of bb_Solver
+
+General notes on the conversion steps taken in suexg-cb.c
+
+1) Converted from using gcc to g++ to avoid needing extern "C" headers - suexg-cb.cpp
+2) Accidentally used astyle (while editing in XEmacs) and reformated the source to "-A7 -S -L -p" gnu conformance
+3) Added #include <bb_solver.h> 
+4) Replaced int solve() with
+   int solve()
+   {
+      int i;
+      if (part && empty4unavoid())
+        return 2;
+
+      i = part == 0 ? 1 : 2;
+      return (bb_Solver (i, 0, 0, 0, &A[1]);
+   }
+5) Replaced call to solve after prefill in the internal grid generator with
+   bb_Solver (1, 0, 1, 0, &A[1]);
+6) Added call to bb_InitTables () before init_by_array
+
+Reference the bb_solver.h file on the parameter usage
+
+If you are running cygwin and/or mingw, you should be able to build by issuing "make -f suexg-cb.mk"
+This uses the g++ compiler to separately compile suexg-cb.cpp and the bb_sudoku_solver.cpp code which is then linked
+
+  
+
+
+Alternatively, you could force a compile/link with the single command:
+g++ -O3 -I. suexg-cb.cpp bb_sudoku_solver.cpp -o suexg-cb-Paul.exe
