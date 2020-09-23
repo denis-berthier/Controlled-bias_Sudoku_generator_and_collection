@@ -21,8 +21,7 @@ But one could not choose arbitrary subparts of this global file: the results wou
 Each of the 129 files in this folder consists of a minimal collection necessary to run controlled-bias computations.<br>
 The name of each file is the seed used to generate random numbers in the controlled-bias generator (but this is irrelevant).<br>
 Files have different sizes, due to the generating method. The smallest ones have about 21,000 puzzles.<br>
-Some files are about four times larger than other ones (and thus have about 84,000 puzzles), because each complete grid was submitted to the controlled-bias generator four times instead of one in the other cases. This has no impact on controlled-bias computations based on them.<br>
-<br><br>
+Some files are about four times larger than other ones (and thus have about 84,000 puzzles), because each complete grid was submitted to the controlled-bias generator four times instead of one in the other cases. This has no impact on controlled-bias computations based on them.<br><br>
 
 ### The CB-GLOBAL-DATA folder contains various controlled-bias results:<br>
 * "puzzles.txt" would be the full collection of 5,926,343 puzzles I generated using the controlled-bias generator, used in [PBCS] to study the distribution of minimal puzzles. However, due to restriction on the size of files in GitHub, it is not to be found anywhere in this repository. You can build it by concatenating the individual files present in the SMALL-CB-COLLECTIONS folder, following the order of their presence in the Excel file: Total.xlsx (in the Docs folder).<br>
@@ -40,7 +39,7 @@ See the README.md file in this folder for more information on how to compile and
 ### The Docs folder contians:
 * my article [Berthier 2009];
 * a "Comparisons.pdf" file stating the results of comparing the various generators in the "PROGRAMS" folder (plus other ones);
-* a "Classification.pdf" file stating the detailed results of the W classification, obtained thanks to the programs and data in this repository;
+* a "W-classification-results.pdf" file stating the detailed results of the W classification, obtained thanks to the programs and data in this repository; it repeats much of [Berthier 2009] but it provides more details and results than a single article can do.
 * a "Total.xlsx" file, recalling the number of puzzles per file in the "SMALL-CB-COLLECTIONS" folder. The order in this file is also the order in which they must be assembled in case you wanted a unique arge file of puzzles. It also corresponds to the order used for the global result files in the "CB-RESULTS" folder.
 
 
