@@ -1,14 +1,12 @@
 
-* ABOUT THE FOUR GENERATORS IN THIS FOLDER
+# ABOUT THE FOUR GENERATORS IN THIS FOLDER
 
-WARNING: Don't ask me too much programmi,g details about these programs. The suexg style of C programming is beyond my understanding. <br>
+WARNING: Don't ask me too much programming details about these programs. The suexg style of C programming is beyond my understanding. <br>
 
 The four programs given here can be used as standalone. suexg-cb can also be used with an input stream of complete Sudoku grids. <br>
 
 
-------------------------------------------------------------------------------------------------------------
-
-** HOW TO COMPILE: 
+## HOW TO COMPILE THE PROGRAMS
 
 Unless you are using MasOS, for which precompiled versions are provided, you will need to compile the three programs before using them, as follows: 
 
@@ -19,9 +17,9 @@ gcc -O3 -Wall suexg-cb.c -o suexg-cb[.exe] <br>
 In folder suexg-cb-Paul-optim48: <br>
 g++ -O3 -I. suexg-cb.cpp bb_sudoku_solver.cpp -o suexg-cb-Paul[.exe] <br>
 
-------------------------------------------------------------------------------------------------------------
 
-** HOW TO RUN
+
+## HOW TO RUN THE PROGRAMS
 
 ./suexg-bu[.exe] s n <br>
 ./suexg-td[.exe] s n [file] <br>
