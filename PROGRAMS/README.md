@@ -31,11 +31,11 @@ In folder suexg-cb-Paul-optim48:<br>
 the .exe suffix is for Windows users. <br><br>
 
 * s is the seed (an integer used as the seed of the random generator) <br>
-* if argument [fie] is not present, n is the number of puzzles generated  <br>
-* if argument file is present, it must be a file with a full grid in each line:  <br>
+* if the optional argument [file] is not present, n is the number of puzzles generated  <br>
+* if the optional argument file is present, it must be a file with a full grid in each line:  <br>
 *- in suexg-td, n puzzles are generated for each input line <br>
-*- in suexg-cb, the grid in each input line is used n times to try to obtain a puzzle <br>
-* in suexg-cb, the optional file argument can be defined as "-" and the algorithm will take a stream of complete girds as input. <br><br>
+*- in suexg-cb, the grid in each input line is used n times to try to obtain a puzzle (but no result is guranteed for this line if n is not large) <br>
+*- in suexg-cb, the optional file argument can be defined as "-" and the algorithm will take a stream of complete girds as input. <br><br>
 
 
 ## About the creation of the controlled-bias collection: <br>
