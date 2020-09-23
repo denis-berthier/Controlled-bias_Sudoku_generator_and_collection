@@ -39,7 +39,7 @@ See the README.md file in this folder for more information on how to compile and
 ### The Docs folder contians:
 * my article [Berthier 2009];
 * a "Comparisons.pdf" file stating the results of comparing the various generators in the "PROGRAMS" folder (plus other ones);
-* a "W-classification-results.pdf" file stating the detailed results of the W classification, obtained thanks to the programs and data in this repository and to the CSP-Rules software (/denis-berthier/CSP-Rules/V2.1/); it repeats much of [Berthier 2009] but it provides more details and results than a single article can do.
+* a "W-classification-results.pdf" file stating the detailed results of the W classification, obtained thanks to the programs and data in this repository and to the CSP-Rules software (/denis-berthier/CSP-Rules-V2.1/); it repeats much of [Berthier 2009] but it provides more details and results than a single article can do.
 * a "Total.xlsx" file, recalling the number of puzzles per file in the "SMALL-CB-COLLECTIONS" folder. The order in this file is also the order in which they must be assembled in case you wanted a unique arge file of puzzles. It also corresponds to the order used for the global result files in the "CB-RESULTS" folder.
 
 
