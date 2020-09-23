@@ -15,7 +15,7 @@ gcc -O3 -Wall suexg-td.c -o suexg-td[.exe] <br>
 gcc -O3 -Wall suexg-cb.c -o suexg-cb[.exe] <br>
 
 In folder suexg-cb-Paul-optim48: <br>
-g++ -O3 -I. suexg-cb.cpp bb_sudoku_solver.cpp -o suexg-cb-Paul[.exe] <br>
+g++ -O3 -I. suexg-cb.cpp bb_sudoku_solver.cpp -o suexg-cb-Paul[.exe] <br><br>
 
 
 
@@ -37,6 +37,7 @@ the .exe suffix is for Windows users. <br><br>
 *- in suexg-cb, the grid in each input line is used n times to try to obtain a puzzle <br>
 * in suexg-cb, the optional file argument can be defined as "-" and the algorithm will take a stream of complete girds as input. <br><br>
 
-For the creation of the controlled-bias collection: <br>
+
+## About the creation of the controlled-bias collection: <br>
 * different versions of the controlled-bias generator have been used (with increasing speeds, but all with the same controlled-bias properties). The last but one version was the present version of suexg-cb (as largely modified by Paul Isaacsson); it doesn't have much in common with the original suexg program (appearing here as "suexg-td"). The last version was based on Paul Isaacsson's solver. <br>
 * the input was a stream of complete Susoku grids, obtained by gsf's compressed full list of Sudoku Grids (modulo isomorphisms) and his decompressor. Unfortunately, gsf's compressed full list is too large for GitHub. <br>
