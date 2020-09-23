@@ -1,0 +1,2065 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html;
+      charset=windows-1252">
+    <link rel="stylesheet" href="../../style.css">
+    <title>Classification results</title>
+    <meta name="Language" content="EN">
+    <meta name="author" content="Denis BERTHIER">
+    <meta name="Title" content="Classification results">
+    <meta name="description" content="Classification results">
+    <meta name="Keywords" content="Sudoku, Games, Mathematical Games,
+      Logic, Artificial Intelligence, The Hidden Logic of Sudoku, Denis
+      Berthier, CSP-Rules, SudoRules">
+  </head>
+  <body>
+    <br>
+    <br>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <h1> Classification  results</h1>
+            <p> The data and programs in this repository, together with the CSP-Rules-V2.1 software (<a href="https://github.com/denis-berthier/CSP-Rules-V2.1"> https://github.com/denis-berthier/CSP-Rules-V2.1</a>) were the basis for the classification results below.</p>
+            <br><br>
+            
+            <h1>1) A controlled-bias generator of minimal puzles</h1>
+            <p>The above classification results are relative to the output
+            of classical top-down or bottom-up generators of minimal
+            puzzles. There are now serious reasons to suspect that these
+            generators are biased with respect to the number of clues of
+            these puzzles: the relative proportions of puzzles in the
+            collection with different numbers of clues do not reflect
+            reality. (Red Ed, on the Sudoku Player's Forum, was the
+            first to suggest that the classical generators had a bias.)<br>
+            As, from the above tables, there appears to be a small
+            upward trend of (SER or W) complexity with respect to
+            the number of clues, the above results may also have some
+            bias with respect to these variables. <br>
+            <br>
+            As the correlation coefficient between the SER or W
+            rating and the number of clues is very small (0.1), the
+            potential bias with respect to SER or W is likely to be
+            small also. Nevertheless, one may want statistics based on
+            collections of minimal puzzles that are unbiased, perhaps
+            not in the absolute but at least with respect to these
+            variables.<br>
+            <br>
+            Unfortunately, no generator of minimal puzzles is currently
+            guaranteed to have no such bias and building such a
+            generator with reasonable computation times seems out of
+            reach.<br>
+            <br>
+            I therefore devised another way of proceeding: taking the
+            generators as they are and applying corrections for the
+            bias, if we can estimate it. <br>
+            The method is similar to what becomes now applied in
+            cameras: instead of&nbsp; complex optimisations of the
+            lenses to reduce typical anomalies (such as chromatic
+            aberration, purple fringing, barrel or pincushion
+            distortion, and so on) — optimisations that lead to large
+            and expensive lenses —, some camera makers now accept a
+            small amount of these in the lenses and they correct the
+            result in real time with dedicated software before recording
+            the photo.<br>
+            The main question here is: can we determine the bias of
+            these current generators? Unfortuntely, the answer is
+            negative for the classical top-down or bottom-up generators.<br>
+            <br>
+            But there appears to be a medium way between "improving the
+            lens" and "correcting its small defects by software": I
+            devised <big><span style="font-style: italic;">a
+                conceptually simple modification of the top-down
+                generators such that it allows a precise mathematical
+                computation of the bias and a simple correction
+                procedure</span></big>.</p>
+            <br>
+            <p><span style="font-style: italic; font-weight: bold;">Acknowlegments:</span><br>
+            Thanks to Eleven for implementing the first modification of
+            top-down suexg-x.x compliant with the specification of
+            controlled-bias defined below and then several faster
+            versions of it. This allowed to turn the whole idea into
+            reality.<br>
+            Thanks to Paul Isaacson for adapting Brian Turner's fast
+            solver so that it could be used instead of that of suexg-cb,
+            thus making it still faster.<br>
+            Thanks to Glenn Fowler (gsf) for providing an a priori
+            unbiased source of complete grids: the full (compressed)
+            collection of their equivalence classes together with a fast
+            decompressor.<br>
+            Thanks also to Allan Barker, Coloin, David P. Bird, Mike
+            Metcalf for discussions and/or various contributions.<br>
+            This informal collaboration via the Sudoku Player's Forum
+            was very productive: due to several independent
+            optimisations, the last version of suexg-cb (cb-opt, which
+            doesn't retain much of the original suexg code) is 200 times
+            faster than the first.</p>
+            <br>
+            <br>
+            <h2>1.1) A controlled-bias top-down generator</h2>
+            <p>A standard top-down generator works as follows to produce <span
+              style="font-weight: bold; font-style: italic;">one</span>
+            minimal puzzle (it has to be iterated n times to produce n
+            minimal puzzles):<br>
+            <ul>
+              <big>
+                <li><big>1) choose randomly a complete grid P </big></li>
+                <li><big>2a) choose one clue randomly from P and delete
+                    it, thus obtaining a puzzle P2 <br>
+                  </big></li>
+                <li><big>2b) if P2 has several solutions, GOTO 2a (i.e.
+                    reinsert the clue just deleted and try deleting
+                    another)</big></li>
+                <li><big>2c) if P2 is minimal, printout P2 and exit the
+                    whole procedure</big></li>
+                <li><big>2d) otherwise (the puzzle has more than one
+                    solution), set P=P2 and GOTO 2a</big></li>
+              </big>
+            </ul>
+            <br>
+            Clause 2b makes any analysis very difficlut. Moroever, it
+            also causes the generator to go deeper, i.e. towards puzzles
+            with fewer clues. It thus introduces a strong, uncontrolled
+            bias.<br>
+            Consider therefore the following, modified top-down
+            generator of minimal puzzles, the <span style="font-weight:
+              bold; font-style: italic;">controlled-bias generator</span>.
+            The step described below produces <span style="font-weight:
+              bold; font-style: italic;">one</span> minimal puzzle (it
+            has to be iterated n times to produce n minimal puzzles):<br>
+            <ul>
+              <big>
+                <li><big>1) choose randomly a complete grid P </big></li>
+                <li><big>2a) choose one clue randomly from P and delete
+                    it, thus obtaining a puzzle P2</big></li>
+                <li><big>2b) if P2 has several solutions, GOTO 1 (i.e.
+                    restart with another complete grid)</big></li>
+                <li><big>2c) if P2 is minimal, printout P2 and exit the
+                    whole procedure</big></li>
+                <li><big>2d) otherwise (the puzzle has more than one
+                    solution), set P=P2 and GOTO 2a</big></li>
+              </big>
+            </ul>
+            <br>
+            The only difference is in clause 2b: if we find a
+            multi-solution puzzle, instead of backtracking to the
+            previous state, we merely discard the current complete grid
+            and restart the search for a minimal puzzle with another
+            complete grid. <br>
+            Notice that, contrary to the standard top-down algorithm
+            which produces one minimal puzzle per complete grid, the
+            modified algorithm will generally use several complete grids
+            before it outputs a minimal puzzle. <br>
+            The efficiency question is: how many? Experimentations show
+            that many complete grids (approximately 250,000 in the mean)
+            are necessary before a minimal puzzle is reached. But this
+            is a question of efficiency of the generator, not a
+            conceptual problem.<br>
+            Once this algorithm is defined, it can be implemented by a
+            simple modification of the top-down sueg-x.x (the version of
+            suexg used to build the sudogen0_1M collection), call it <span
+              style="font-weight: bold; font-style: italic;">suexg-cb</span>.
+            The modified generator is indeed much slower than the
+            original one. The purpose here is not speed, but controlled
+            bias and, as mentioned in the acknowlegments, drastic
+            optimisations are possible.<br>
+            <br>
+            <br>
+            The top-down controlled-bias generator has the same output
+            as its following "virtual" counterpart. As a result, the
+            top-down controlled-bias generator will output minimal
+            puzzles according to the same probability as this virtual
+            counterpart.<br>
+            <br>
+            &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; Repeat until a minimal
+            puzzle has been printed<br>
+            <ul>
+              <big>
+                <li><big>1) choose randomly a complete grid P</big></li>
+                <li><big>2) while P has at least one clue:</big></li>
+                <li><big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2a)
+                    choose one clue randomly from P and delete it, thus
+                    obtaining a puzzle P2 </big></li>
+                <li><big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2b)
+                    if P2 is minimal, printout P2 (but do not exit the
+                    procedure)</big></li>
+                <li><big>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2c)
+                    set P=P2 </big></li>
+                end while </big>
+            </ul>
+            <br>
+            <br>
+            This virtual generator does the same thing as the
+            controlled-bias one, except that, once it has found a
+            minimal puzzle or a multi-solution one, instead of stopping,
+            it blindly continues along a useless path until it reaches
+            the empty grid.<br>
+            But this virtual generator is interesting theoretically
+            because it works similarly to the random uniform search
+            defined in section 3.2 below and according to the same
+            transition probabilities and it outputs minimal puzzles
+            according to the probability Pr on the set B of minimal
+            puzzles defined below.<br>
+            <br>
+            <br>
+            Let us now build our formal model of this generator.<br>
+            <br>
+            <br>
+            <br>
+            <h2>1.2) A forest of paths from complete grids to puzzles</h2>
+            <p> Let us introduce the notion of a <big><span
+                style="font-style: italic;">doubly indexed puzzle</span></big>.
+            We consider only (single or multi solution) consistent
+            puzzles P. The double index of a doubly indexed puzzle P has
+            a clear intuitive meaning: the first index is one of its
+            solution grids and the second index is a sequence (notice:
+            not a set, but a sequence, i.e. an ordered set) of clue
+            deletions leading from this solution to P. In a sense, the
+            double index keeps track of the generation process.<br>
+            Given a doubly indexed puzzle Q, there is an underlying
+            singly-indexed puzzle: the ordinary puzzle obtained by
+            forgetting the second index of Q, i.e. by remembering the
+            solution grid from which it came and by forgetting from
+            which sequence of deletions Q was reached from this
+            solution. <br>
+            Given a doubly indexed puzzle Q, there is also a non indexed
+            puzzle, obtained by forgetting the two indices.<br>
+            Notice that, for a single solution doubly indexed puzzle,
+            the first index is useless as it can be computed from the
+            puzzle; in this case singly indexed and non indexed are
+            equivalent. (In terms of the generator, it could as well
+            output minimal puzzles or couples
+            minimal-puzzle-plus-solution.)</p>
+            <br>
+            <p>Consider now the following layered structure (a forest of
+            trees with branches pointing downwards), the nodes being
+            (single or multi solution) doubly indexed puzzles:<br>
+            - floor 81 : the N different complete solution grids
+            (considered as puzzles), each indexed by itself and by the
+            empty sequence; notice that all the puzzles at floor 81 have
+            81 clues;<br>
+            - floor 80: each doubly indexed puzzle Q at floor 81 sprouts
+            81 branches pointing to floor 80, one for each clue C in Q;
+            the other end of this C branch will be the doubly indexed
+            puzzle obtained from Q by removing clue C and indexed by the
+            same complete grid as Q and by the 1-element sequence (C);
+            notice that all the puzzles at floor 80 have 80 clues;<br>
+            - recursive step: given floor n+1 (each doubly indexed
+            puzzle of which has n+1 clues and is indexed by a complete
+            grid that solves it and by a sequence of length 81-(n+1)),
+            build floor n as follows:<br>
+            each doubly indexed puzzle Q at floor n+1 sprouts n+1
+            branches; for each clue C in Q, there is a branch leading to
+            a doubly indexed puzzle R at floor n: R is obtained from Q
+            by removing clue C; its first index is identical to that of
+            Q and its second index is the (81-n)-element sequence
+            obtained by appending C to the end of the second index of Q;
+            notice that all the doubly indexed puzzles at floor n have n
+            clues and the length of their second index is equal to 1 +
+            (81-(n+1)) = 81-n.</p>
+            <br>
+            <p>It is easy to see that, at floor n, each doubly indexed
+            puzzle has an underlying singly indexed puzzle identical to
+            that of (81 - n)! doubly indexed puzzles with the same first
+            index at the same floor (including itself).<br>
+            This is equivalent to saying that, at any floor n &lt; 81,
+            any singly-indexed puzzle Q can be reached by exactly (81 -
+            n)! different paths from the top (all of which start
+            necessarily from the complete grid defined as the first
+            index of Q). These paths are the (81 - n)! different ways of
+            deleting one by one its missing 81-n clues from its solution
+            grid.<br>
+            Notice that this would not be true for non indexed puzzles
+            that have multiple solutions. This is where the first index
+            is useful.</p>
+            <br>
+            <p>Let N be the number of complete grids. At each floor n,
+            there are:<br>
+            &nbsp;N * 81! / n! doubly indexed puzzles,<br>
+            &nbsp;N * 81! / (81-n)! / n! singly indexed puzzles.<br>
+            For each n, there is therefore a uniform probability P(n) =
+            1/N * 1/81! * (81-n)! * n! that a singly indexed puzzle Q at
+            floor n is reached by a random (uniform) search starting
+            from the associated complete grid (its first index) at the
+            top.<br>
+            <br>
+            What is important here is the ratio: <span
+              style="font-weight: bold;">P(n+1) / P(n) = (n + 1) / (81 -
+              n</span>). <br style="font-weight: bold;">
+            This formula is valid globally if we start from all the
+            complete grids, as above, but it is also valid for all the
+            single solution puzzles if we start from a single complete
+            grid (just forget N in the proof above). (Notice however
+            that it is not valid if we start with a subgrid instead of a
+            complete grid.)</p>
+            <br>
+            <p>Now, call B the set of (non indexed) minimal puzzles. On B,
+            all the puzzles are minimal. Any puzzle strictly above B has
+            redundant clues and a single solution. Notice that, for all
+            the puzzles on B and above B, singly indexed and non indexed
+            puzzles are in one-to-one correspondence.<br>
+            On the set B of minimal puzzles there is a probabily Pr
+            naturally induced by the different Pn's (and renormalised to
+            sum up to 1) and it is the probability that a minimal puzzle
+            Q is output by our controlled-bias generator. It depends
+            only on the number of clues and it is defined, up to a
+            multiplicative constant k, by Pr(Q) = k P(n), if Q has n
+            clues. k must be chosen so that the probabilities of all the
+            minimal puzzles sum up to 1.<br>
+            But we need not know k. What is important here is that, by
+            construction of Pr on B (a construction which models the
+            workings of the controlled bias generator), the fundamental
+            relation <span style="font-weight: bold;">Pr(n+1) / Pr(n) =
+              (n + 1) / (81 - n</span>) holds for any two minimal
+            puzzles, with respectively n+1 and n clues.</p>
+            <br>
+            <p>For n &lt; 41, this relation means that a minimal puzzle
+            with n clues is more likely to be reached from the top than
+            a minimal puzzle with n+1 clues. More precisely, we have:<br>
+            Pr(40) = Pr(41),<br>
+            Pr(39) =&nbsp; 42/40 * Pr(40),<br>
+            Pr(38) = 43/39 * Pr(39).<br>
+            <br>
+            Repeated application of the formula gives Pr(24) = 61.11
+            Pr(30) : a puzzle with 24 clues has ~ 61 more chances of
+            being output than a puzzle with 30 clues. This is indeed a
+            strong bias.<p>
+
+            <p>A non-biased generator would give the same probability to
+            all the minimal puzzles. <br>
+            The above relation shows that <span style="font-weight:
+              bold;">the controlled bias generator:</span><br
+              style="font-weight: bold;">
+            <span style="font-weight: bold;">- is unbiased when
+              restricted (by filtering its output) to n-clue puzzles,
+              for any fixed n,</span><br style="font-weight: bold;">
+            <span style="font-weight: bold;">- is biased towards puzzles
+              with fewer clues,</span><br style="font-weight: bold;">
+            <span style="font-weight: bold;">- this bias is well known.</span><br
+              style="font-weight: bold;">
+            <br>
+            Moreover, <span style="font-weight: bold;">the puzzles
+              produced by the controlled-bias generator are
+              uncorrelated, provided that the complete grids are chosen
+              in an uncorrelated way</span>.<br>
+            <br>
+            <span style="font-weight: bold;">As we know precisely the
+              bias with respect to uniformity, we can correct it easily
+              by applying correction factors cf(n) to the probabilities
+              on B</span>. Only the relative values of the cf(n) is
+            important: they satisfy <span style="font-weight: bold;">cf(n+1)
+              / cf(n) = (81 - n) / (n + 1)</span>.<br>
+            Mathematically, after normalisation, cf is just the relative
+            density of the uniform distribution on B with respect to the
+            probability distribution Pr.</p>
+            <p>[Notice that a classical top-down generator is still more
+            biased in favour of puzzles with fewer clues because,
+            instead of discarding the current path when it meets a
+            multi-solution puzzle, it backtracks to the previous floor
+            and tries again to go deeper.]</p>
+            <br>
+            <br>
+            <h2>1.3) Computing unbiased means and standard deviations of a variable X  using a controlled-bias generator</h2>
+            <p>In practice, how can one compute statistics of minimal
+            puzzles based on a (large) sample produced by a
+            controlled-bias generator, using an uncorrelated source of
+            complete grids?<br>
+            If we consider any random variable X defined (at least) on
+            minimal puzzles, let:<br>
+            - on(n) be the observed number of puzzles with n clues in
+            the sample,<br>
+            - E(X, n) be the observed mean value of X for puzzles with n
+            clues&nbsp; in the same sample,<br>
+            - sd(X, n) be the observed standard deviation of X for
+            puzzles with n clues&nbsp; in the same sample. <br>
+            <br>
+            The raw (biased) mean of X is classically estimated as:
+            sum[E(X, n) * on(n)] / sum[on(n)] (theorem on the additivity
+            of the mean values).<br>
+            The real, unbiased mean of X must be estimated as (this is a
+            mere weighted average): <br>
+            <br>
+            <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              real-mean(X) = sum[E(X, n) * on(n) * cf(n)] / sum[on(n) *
+              cf(n)]</span>.<br>
+            <br>
+            Similarly, the raw (biased) standard deviation of X is
+            classically estimated as: sqrt{sum[sd(X, n)^2 * on(n)] /
+            sum[on(n)]} (theorem on the additivity of the variances -
+            beware,&nbsp; not the standard deviations!).<br>
+            And the real, unbiased standard deviation of X must be
+            estimated as (this is merely the standard deviation for a
+            weighted average): <br>
+            <br>
+            <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+              real-sd(X) = sqrt{sum[sd(X, n)^2 * on(n) * cf(n)] /
+              sum[on(n) * cf(n)]}</span>.<br>
+            <br>
+            <br>
+            These formul¾ show that the cf(n) sequence needs be defined
+            only modulo a multiplicative factor. <br>
+            It is convenient to choose cf(26) =1. This gives the
+            following sequence of correction factors (in the range
+            19-31, which includes all the puzzles of all the samples we
+            have obtained with all the random generators considered
+            here):<br>
+            <br>
+            cf-sequence[19...31] =&nbsp;&nbsp; [0.00134&nbsp;
+            0.00415&nbsp; 0.0120&nbsp; 0.0329&nbsp; 0.0843&nbsp;
+            0.204&nbsp; 0.464&nbsp; 1&nbsp; 2.037&nbsp; 3.929&nbsp;
+            7.180&nbsp; 12.445&nbsp; 20.474]</p>
+            <br>
+            <p>It may be shocking to consider that a 30-clue puzzle in a
+            sample must be given a weight 61 times greater than a
+            24-clue puzzle, but that's how it is.<br>
+            A consequence of all this is that unbiased statistics for
+            the mean number of clues of minimal puzzles must rely on
+            extremely large samples with sufficiently many 29-clue and
+            30-clue puzzles. Practical computations below show that the
+            interval of interest is [22, 30].</p>
+            <br>
+            <br>
+            <h2>1.4) Very small sensitivity of the controlled-bias generator to the
+                source of complete grids</h2>
+            <p>The source of (sufficiently random) complete grids has a
+            very limited impact on the output of the controlled-bias
+            generator.<br>
+            This nice property has been tested with different sources of
+            complete grids. See section 4.2.<br>
+            It is easily understandable: as two thirds (in the mean) of
+            a complete grid are deleted in the deletion phase, any
+            structure that might have existed in the complete grid is
+            washed away by this deletion phase.</p>
+            <br>
+            <br>
+            <h2>1.5) A remark on bottom-up generators</h2>
+            <p>A similar analysis for bottom-up generators is more
+            difficult, perhaps even unfeasible, because these generators
+            are not purely bottom-up. Starting with 0 clues, they add
+            clues until they reach a single solution puzzle, but after
+            that they delete clues until they reach a minimal puzzle.
+            Contrary to top-down generators, there doesn't seem to be an
+            easy way of modifying them to get some form of controlled
+            bias.<br>
+            Moreover, as bottom-up generators are more biased than
+            top-down, it doesn't seem useful to start from them if one
+            wants to build a modified algorithm with controlled bias:
+            the correction factors would have to be very large.</p>
+            <br>
+            <br>
+
+            <h1>2) Unbiased classification of minimal puzles</h1>
+            <p>The controlled-bias method works in practice, although
+            minimal puzzle generation was very slow before various
+            optimisations of the generator were made. The algorithm can
+            be accelerated by deleting the first 46 (or even 48) clues
+            without doing any intermediate test, because the probability
+            of obtaining an n-clue minimal puzzle with n &gt; 35
+            (or even n &gt; 33) is very small (as shown by the first
+            180,000 puzzles generated without this optimisation, in
+            which the maximum number of clues was 31). The resulting
+            accelerated algorithm is 6 times faster (20 times if we
+            consider only the deletion part). After generating more than
+            6.5 millions of minimals, only two 32s and no minimal puzzle
+            with more than 32 clues has been found.<br>
+            <br>
+            I first used the method on a collection of 500,000 puzzles
+            generated by the controlled-bias generator suexg-cb.<br>
+            (The first 180,000 puzzles were generated before the
+            algorithm was accelerated; the distributions before and
+            after the above 46-clue acceleration have been checked to be
+            the same).<br>
+            Apart from the distribution of clues, which is more
+            sensitive to fluctuations, the various unbiased averages
+            obtained are very stable.<br>
+            <br>
+            After the above computations were done, it was suggested
+            that the source of complete grids I had used (the internal
+            suexg generator) might be a source of bias (this will be
+            discussed in section 3.2).<br>
+            Alternative sources of complete grids were then tested.<br>
+            A final solution to this problem was reached when Glenn
+            Fowler (gsf) made available, in a compressed form of
+            reasonable size, a full list of all the (equivalence classes
+            of) complete grids and a fast decompressor. Not only did
+            this anihilated any doubts about the source of complete
+            grids, it also allowed an important speed improvement. This
+            is of course an uncorrelated source of complete grids (more
+            precisely: essentially uncorrelated, i.e. uncorrelated
+            modulo isomorphims).<br>
+            Technically, Unix piping is used to input an integer number
+            of full scans of gsf's collection into the (deletor part of
+            the) suexg-cb controlled-bias generator.<br>
+            The results reported in this section are therefore
+            guaranteed to be unbiased.<br>
+            <br>
+            Sub-section 2.2 gives the results when the suexg internal
+            generator of complete grids is used instead of gsf's
+            collection. It shows that the controlled-bias generator is
+            relatively insensitive to the source of complete grids: even
+            a strong bias in this source (suexg is known to generate
+            complete grids with ~ 20% more minimals than an ubiased
+            source) has almost no effect on the statistics of minimals.</p>
+            <br>
+            <br>
+            <h2>2.1) Final results using an <span style="font-style: italic;">a priori</span>
+                unbiased uncorrelated source of complete grids (with the
+                final version of the controlled-bias generator)</h2>
+            <p>The reults below were obtained with a sample of 5,926,343
+            uncorrelated minimal puzzles, corresponding to 279 full
+            scans of gsf's collection.<br>
+            Remark: there is some (very small: 0.03% in the mean)
+            discrepancy in the number of tries, whether one counts them
+            directly in the algorithm (as I did when I needed this
+            datum, i.e. only for the estimated number of minimals,
+            section 3.1.4) or one multiplies the number of gsf scans
+            with the number of gsf grids. This discrepancy is so small
+            that it would have been harmless even if it had not been
+            random. <br>
+            But, for some time, I have been wondering about the cause. I
+            have found. <br>
+            UNIX piping is far from perfect: there is some (very small)
+            random data leak. In the present case, a very small
+            percentage of the complete gsf grids are lost before
+            reaching the deletor part of suexg-cb. This has no impact on
+            the following results, as one can consider this data leak as
+            a (real, not pseudo) random sampling of the input complete
+            grids, with high probability of acceptance. <br>
+            The leak seems to be different on different machines. It is
+            very low on my Mac (0.01%) and a little higher on other Unix
+            machines I've been able to use. The positive
+            aspect of this difference is, I could check that the results
+            don't depend on the leak. </p>
+            <br>
+            <br>
+            <h3>2.1.1) Global results</h3>
+            At the risk of some redundancy with the results in the "Comparisons" file, it is
+            interesting to compare the global results for the (now three) main kinds of generators with the real (estimated) values.<br>
+            <br>
+            <table style="text-align: left; width: 100%;" border="1"
+              cellpadding="2" cellspacing="2">
+              <tbody>
+                <tr>
+                  <td>generator<br>
+                  </td>
+                  <td style="vertical-align: top;">bottom-up generator<br>
+                    (suexg-bu)</td>
+                  <td style="vertical-align: top;">top-down generator<br>
+                    (suexg-td)</td>
+                  <td style="vertical-align: top;">controlled-bias
+                    generator <br>
+                    (suexg-cb)</td>
+                  <td style="vertical-align: top;">real (estimated)
+                    value <br>
+                    (suexg-cb with correction factors)</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">mean(#clues) </td>
+                  <td style="vertical-align: top;">23.87</td>
+                  <td style="vertical-align: top;">24.38</td>
+                  <td style="vertical-align: top;">25.667</td>
+                  <td style="vertical-align: top;">26.577<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">standard-deviation(#clues)<br>
+                  </td>
+                  <td style="vertical-align: top;">1.08<br>
+                  </td>
+                  <td style="vertical-align: top;">1.12<br>
+                  </td>
+                  <td style="vertical-align: top;">1.116<br>
+                  </td>
+                  <td style="vertical-align: top;">1.116<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">skewness(#clues)</td>
+                  <td style="vertical-align: top;">0.11<br>
+                  </td>
+                  <td style="vertical-align: top;">0.08<br>
+                  </td>
+                  <td style="vertical-align: top;">0.087<br>
+                  </td>
+                  <td style="vertical-align: top;">~ 0<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">kurtosis(#clues)</td>
+                  <td style="vertical-align: top;">0.026<br>
+                  </td>
+                  <td style="vertical-align: top;">0.007<br>
+                  </td>
+                  <td style="vertical-align: top;">0.024<br>
+                  </td>
+                  <td style="vertical-align: top;">~ 0<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">mean(W)<br>
+                  </td>
+                  <td style="vertical-align: top;">1.80<br>
+                  </td>
+                  <td style="vertical-align: top;">1.94<br>
+                  </td>
+                  <td style="vertical-align: top;">2.217<br>
+                  </td>
+                  <td style="vertical-align: top;">2.449<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">standard-deviation(W)</td>
+                  <td style="vertical-align: top;">1.24<br>
+                  </td>
+                  <td style="vertical-align: top;">1.29<br>
+                  </td>
+                  <td style="vertical-align: top;">1.35<br>
+                  </td>
+                  <td style="vertical-align: top;">1.39<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">mean(SER)<br>
+                  </td>
+                  <td style="vertical-align: top;">3.50<br>
+                  </td>
+                  <td style="vertical-align: top;">3.77<br>
+                  </td>
+                  <td style="vertical-align: top;">4.29<br>
+                  </td>
+                  <td style="vertical-align: top;">4.73<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">standard-deviation(SER)</td>
+                  <td style="vertical-align: top;">2.33<br>
+                  </td>
+                  <td style="vertical-align: top;">2.42<br>
+                  </td>
+                  <td style="vertical-align: top;">2.54<br>
+                  </td>
+                  <td style="vertical-align: top;">2.49<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">correlation coeff
+                    (W, SER)<br>
+                  </td>
+                  <td style="vertical-align: top;">0.898<br>
+                  </td>
+                  <td style="vertical-align: top;">0.895<br>
+                  </td>
+                  <td style="vertical-align: top;">0.897<br>
+                  </td>
+                  <td style="vertical-align: top;">0.90<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">correlation coeff
+                    (#clues, W)<br>
+                  </td>
+                  <td style="vertical-align: top;">0.096<br>
+                  </td>
+                  <td style="vertical-align: top;">0.115<br>
+                  </td>
+                  <td style="vertical-align: top;">0.192<br>
+                  </td>
+                  <td style="vertical-align: top;">0.19<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">correlation coeff
+                    (#clues, SER)<br>
+                  </td>
+                  <td style="vertical-align: top;">0.11<br>
+                  </td>
+                  <td style="vertical-align: top;">0.120<br>
+                  </td>
+                  <td style="vertical-align: top;">0.199<br>
+                  </td>
+                  <td style="vertical-align: top;">0.20<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">max(W)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+                    (*)<br>
+                    (size of sub-sample used)<br>
+                  </td>
+                  <td style="vertical-align: top;">11<br>
+                    (10,000)<br>
+                  </td>
+                  <td style="vertical-align: top;">13<br>
+                    (1,000,000)<br>
+                  </td>
+                  <td style="vertical-align: top;">16<br>
+                    (5,926,343) </td>
+                  <td style="vertical-align: top;">16<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">max(SER)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    (*)<br>
+                    (size of sub-sample used)<br>
+                  </td>
+                  <td style="vertical-align: top;">9.2<br>
+                    (1,000,000)<br>
+                  </td>
+                  <td style="vertical-align: top;">9.3<br>
+                    (1,000,000)<br>
+                  </td>
+                  <td style="vertical-align: top;">9.3<br>
+                    3,037,717 </td>
+                  <td style="vertical-align: top;">9.3<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <p>(*) comparison of maximum values for samples of different
+            sizes is not meaningful</p>
+            <br>
+            <p>It can be seen that, in all these cases, the number-of-clues
+            skewness and kurtosis are close to 0, which means that the
+            general shape of each of these distributions is close to
+            that of a Normal (but, of course, they are not continuous).</p>
+            <br>
+            <h3>2.1.2) The real number of clues of minimal puzzles</h3>
+            <p> controlled-bias mean = 25.667
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            controlled-bias standard-deviation = 1.116<br>
+            <br>
+            <span style="font-weight: bold;">real (estimated) mean =
+              26.577</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; real (estimated) standard-deviation = 1.116<br>
+            <br>
+            The real, unbiased value for the mean number of clues of
+            minimal puzzles is 0.9 more than the raw mean number given
+            by the controlled-bias generator. </p>
+            <br>
+            <p> The controlled-bias and real (estimated) number-of-clues
+            distributions are given by the following table:<br>
+            <br>
+            <table style="text-align: left; width: 100%;" border="1"
+              cellpadding="2" cellspacing="2">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;">#clues<br>
+                  </td>
+                  <td style="vertical-align: top;">#instances <br>
+                    in cb sample<br>
+                  </td>
+                  <td style="vertical-align: top;">% <br>
+                    in cb sample<br>
+                  </td>
+                  <td style="vertical-align: top;">real %<br>
+                    (estimated)<br>
+                  </td>
+                  <td style="vertical-align: top;">real %<br>
+                    standard-deviation<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">19<br>
+                  </td>
+                  <td style="vertical-align: top;">0<br>
+                  </td>
+                  <td style="vertical-align: top;">0.0<br>
+                  </td>
+                  <td style="vertical-align: top;">0.0<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">20<br>
+                  </td>
+                  <td style="vertical-align: top;">2<br>
+                  </td>
+                  <td style="vertical-align: top;">0.000037<br>
+                  </td>
+                  <td style="vertical-align: top;">1.32e-07<br>
+                  </td>
+                  <td style="vertical-align: top;">0.93e-07<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">21<br>
+                  </td>
+                  <td style="vertical-align: top;">164<br>
+                  </td>
+                  <td style="vertical-align: top;">0.00277<br>
+                  </td>
+                  <td style="vertical-align: top;">3.14e-05<br>
+                  </td>
+                  <td style="vertical-align: top;">0.25e-05</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">22<br>
+                  </td>
+                  <td style="vertical-align: top;">6,651<br>
+                  </td>
+                  <td style="vertical-align: top;">0.112<br>
+                  </td>
+                  <td style="vertical-align: top;">3.48e-03<br>
+                  </td>
+                  <td style="vertical-align: top;">0.43e-03<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">23<br>
+                  </td>
+                  <td style="vertical-align: top;">110,103<br>
+                  </td>
+                  <td style="vertical-align: top;">1.858<br>
+                  </td>
+                  <td style="vertical-align: top;">0.148<br>
+                  </td>
+                  <td style="vertical-align: top;">0.00045<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">24<br>
+                  </td>
+                  <td style="vertical-align: top;">704,089<br>
+                  </td>
+                  <td style="vertical-align: top;">11.88<br>
+                  </td>
+                  <td style="vertical-align: top;">2.285<br>
+                  </td>
+                  <td style="vertical-align: top;">0.0027<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">25<br>
+                  </td>
+                  <td style="vertical-align: top;">1,814,413<br>
+                  </td>
+                  <td style="vertical-align: top;">30.62<br>
+                  </td>
+                  <td style="vertical-align: top;">13.425<br>
+                  </td>
+                  <td style="vertical-align: top;">0.010<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">26<br>
+                  </td>
+                  <td style="vertical-align: top;">2,002,349<br>
+                  </td>
+                  <td style="vertical-align: top;">33.79<br>
+                  </td>
+                  <td style="vertical-align: top;">31.909<br>
+                  </td>
+                  <td style="vertical-align: top;">0.023<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">27<br>
+                  </td>
+                  <td style="vertical-align: top;">1,007,700<br>
+                  </td>
+                  <td style="vertical-align: top;">17.00<br>
+                  </td>
+                  <td style="vertical-align: top;">32.712<br>
+                  </td>
+                  <td style="vertical-align: top;">0.033<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">28<br>
+                  </td>
+                  <td style="vertical-align: top;">247,259<br>
+                  </td>
+                  <td style="vertical-align: top;">4.172<br>
+                  </td>
+                  <td style="vertical-align: top;">15.480<br>
+                  </td>
+                  <td style="vertical-align: top;">0.031<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">29<br>
+                  </td>
+                  <td style="vertical-align: top;">31,449<br>
+                  </td>
+                  <td style="vertical-align: top;">0.531<br>
+                  </td>
+                  <td style="vertical-align: top;">3.598<br>
+                  </td>
+                  <td style="vertical-align: top;">0.020<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">30<br>
+                  </td>
+                  <td style="vertical-align: top;">2,088<br>
+                  </td>
+                  <td style="vertical-align: top;">0.0352<br>
+                  </td>
+                  <td style="vertical-align: top;">0.414<br>
+                  </td>
+                  <td style="vertical-align: top;">0.009<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">31<br>
+                  </td>
+                  <td style="vertical-align: top;">74<br>
+                  </td>
+                  <td style="vertical-align: top;">1.25e-03<br>
+                  </td>
+                  <td style="vertical-align: top;">0.0241<br>
+                  </td>
+                  <td style="vertical-align: top;">0.0028<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">32<br>
+                  </td>
+                  <td style="vertical-align: top;">2<br>
+                  </td>
+                  <td style="vertical-align: top;">3.37e-05<br>
+                  </td>
+                  <td style="vertical-align: top;">1.02e-03<br>
+                  </td>
+                  <td style="vertical-align: top;">0.7e-03<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">total<br>
+                  </td>
+                  <td style="vertical-align: top;">5,926,343<br>
+                  </td>
+                  <td style="vertical-align: top;">100<br>
+                  </td>
+                  <td style="vertical-align: top;">100<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <p> The vast majority of minimal puzzles produced by the
+            controlled-bias algorithm is still in the range [23 -
+            28]&nbsp;clues, but the real distribution one can deduce
+            from it is notably different from its raw distribution. For
+            n &lt; 26, it has fewer occurrences, for n &#8805; 26&nbsp; it has
+            more occurrences.</p>
+            <br>
+            <h3> 2.1.3) The real W rating (mean, standard deviation,
+              skewness and kurtosis) as a function of the number of
+              clues</h3>
+            <p>Remember that, for any fixed number of clues, the
+            controlled-bias generator is completely unbiased. As a
+            result, each row of the the table below gives both the
+            controlled-bias and the real values for the n-clue W
+            rating. Only the global mean value, standard deviation,
+            skewness and kurtosis have to be computed differently.</p>
+            <br>
+            <table style="text-align: left; width: 100%;" border="1"
+              cellpadding="2" cellspacing="2">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;">#clues</td>
+                  <td style="vertical-align: top;">#instances <br>
+                    in cb sample</td>
+                  <td style="vertical-align: top;">real mean(W)<br>
+                  </td>
+                  <td style="vertical-align: top;">real
+                    standard-deviation(W)<br>
+                  </td>
+                  <td style="vertical-align: top;">real skewness(W)<br>
+                  </td>
+                  <td style="vertical-align: top;">real kurtosis(W)</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">19<br>
+                  </td>
+                  <td style="vertical-align: top;">0<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">20<br>
+                  </td>
+                  <td style="vertical-align: top;">2<br>
+                  </td>
+                  <td style="vertical-align: top;">1.95 &nbsp;
+                    &nbsp;&nbsp; (*) </td>
+                  <td style="vertical-align: top;">1.05 &nbsp;
+                    &nbsp;&nbsp; (*) </td>
+                  <td style="vertical-align: top;">-1.94e-22 &nbsp;
+                    &nbsp;&nbsp; (*) </td>
+                  <td style="vertical-align: top;">-2.0 &nbsp;
+                    &nbsp;&nbsp; (*) </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">21<br>
+                  </td>
+                  <td style="vertical-align: top;">164<br>
+                  </td>
+                  <td style="vertical-align: top;">1.52<br>
+                  </td>
+                  <td style="vertical-align: top;">0.93<br>
+                  </td>
+                  <td style="vertical-align: top;">3.7e-05<br>
+                  </td>
+                  <td style="vertical-align: top;">0.60<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">22<br>
+                  </td>
+                  <td style="vertical-align: top;">6,651<br>
+                  </td>
+                  <td style="vertical-align: top;">1.64<br>
+                  </td>
+                  <td style="vertical-align: top;">1.12<br>
+                  </td>
+                  <td style="vertical-align: top;">0.0016<br>
+                  </td>
+                  <td style="vertical-align: top;">1.46<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">23<br>
+                  </td>
+                  <td style="vertical-align: top;">110,103<br>
+                  </td>
+                  <td style="vertical-align: top;">1.73<br>
+                  </td>
+                  <td style="vertical-align: top;">1.18<br>
+                  </td>
+                  <td style="vertical-align: top;">0.025<br>
+                  </td>
+                  <td style="vertical-align: top;">1.16<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">24<br>
+                  </td>
+                  <td style="vertical-align: top;">704,089<br>
+                  </td>
+                  <td style="vertical-align: top;">1.86<br>
+                  </td>
+                  <td style="vertical-align: top;">1.25<br>
+                  </td>
+                  <td style="vertical-align: top;">0.13<br>
+                  </td>
+                  <td style="vertical-align: top;">0.41<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">25<br>
+                  </td>
+                  <td style="vertical-align: top;">1,814,413<br>
+                  </td>
+                  <td style="vertical-align: top;">2.04<br>
+                  </td>
+                  <td style="vertical-align: top;">1.32<br>
+                  </td>
+                  <td style="vertical-align: top;">0.26<br>
+                  </td>
+                  <td style="vertical-align: top;">-0.16<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">26<br>
+                  </td>
+                  <td style="vertical-align: top;">2,002,349<br>
+                  </td>
+                  <td style="vertical-align: top;">2.27<br>
+                  </td>
+                  <td style="vertical-align: top;">1.38<br>
+                  </td>
+                  <td style="vertical-align: top;">0.20<br>
+                  </td>
+                  <td style="vertical-align: top;">-0.53<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">27<br>
+                  </td>
+                  <td style="vertical-align: top;">1,007,700<br>
+                  </td>
+                  <td style="vertical-align: top;">2.55<br>
+                  </td>
+                  <td style="vertical-align: top;">1.42<br>
+                  </td>
+                  <td style="vertical-align: top;">0.055<br>
+                  </td>
+                  <td style="vertical-align: top;">-0.67<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">28<br>
+                  </td>
+                  <td style="vertical-align: top;">247,259<br>
+                  </td>
+                  <td style="vertical-align: top;">2.85<br>
+                  </td>
+                  <td style="vertical-align: top;">1.42<br>
+                  </td>
+                  <td style="vertical-align: top;">0.0045<br>
+                  </td>
+                  <td style="vertical-align: top;">-0.52<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">29<br>
+                  </td>
+                  <td style="vertical-align: top;">31,449 </td>
+                  <td style="vertical-align: top;">3.16<br>
+                  </td>
+                  <td style="vertical-align: top;">1.37<br>
+                  </td>
+                  <td style="vertical-align: top;">-0.00038<br>
+                  </td>
+                  <td style="vertical-align: top;">-0.11<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">30<br>
+                  </td>
+                  <td style="vertical-align: top;">2088<br>
+                  </td>
+                  <td style="vertical-align: top;">3.47<br>
+                  </td>
+                  <td style="vertical-align: top;">1.29<br>
+                  </td>
+                  <td style="vertical-align: top;">-6.8e-05<br>
+                  </td>
+                  <td style="vertical-align: top;">0.51<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">31<br>
+                  </td>
+                  <td style="vertical-align: top;">74<br>
+                  </td>
+                  <td style="vertical-align: top;">3.57<br>
+                  </td>
+                  <td style="vertical-align: top;">1.23<br>
+                  </td>
+                  <td style="vertical-align: top;">3.5e-06<br>
+                  </td>
+                  <td style="vertical-align: top;">0.99<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">32<br>
+                  </td>
+                  <td style="vertical-align: top;">2<br>
+                  </td>
+                  <td style="vertical-align: top;">4.5 &nbsp;
+                    &nbsp;&nbsp; (*) </td>
+                  <td style="vertical-align: top;">0.5 &nbsp;
+                    &nbsp;&nbsp; (*) </td>
+                  <td style="vertical-align: top;">0.0 &nbsp;
+                    &nbsp;&nbsp; (*) </td>
+                  <td style="vertical-align: top;">0.99 &nbsp;
+                    &nbsp;&nbsp; (*) </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">total<br>
+                  </td>
+                  <td style="vertical-align: top;">5,926,343<br>
+                  </td>
+                  <td style="vertical-align: top;">2.449<br>
+                  </td>
+                  <td style="vertical-align: top;">1.39<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <p>(*) values based on small samples are not meaningful<br>
+            (**) although the standard deviation depends on the number
+            of clues, this dependency is small and we have used the
+            formula in section 3.3.</p>
+            <br>
+            <p>Which gives:<br>
+            controlled-bias mean(W) =&nbsp; 2.217
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            controlled-bias standard-deviation(W) = 1.35<br>
+            <span style="font-weight: bold;">real mean(W) =&nbsp;
+              2.449
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              real standard-deviation(SER) = 1.39</span><br>
+            These values are identical to those obtained in case the
+            source of complete grids was the suexg internal generator.</p>
+            <br>
+            <p><span style="font-weight: bold;">Conclusion: <br>
+              there seems to be a (non absolute) barrier of complexity
+              such that, when the number of clues (n) increases: </span><br
+              style="font-weight: bold;">
+            <span style="font-weight: bold;">- the n-clue mean
+              complexity increases; </span><br style="font-weight:
+              bold;">
+            <span style="font-weight: bold;">- the proportion of puzzles
+              away from the n-clue mean increases; </span><br
+              style="font-weight: bold;">
+            <span style="font-weight: bold;">but </span><br
+              style="font-weight: bold;">
+            <span style="font-weight: bold;">- </span><span
+              style="font-weight: bold;">the proportion of puzzles</span><span
+              style="font-weight: bold;"> far below the </span><span
+              style="font-weight: bold;">n-clue </span><span
+              style="font-weight: bold;">mean increases; </span><br
+              style="font-weight: bold;">
+            <span style="font-weight: bold;">- </span><span
+              style="font-weight: bold;"></span><span
+              style="font-weight: bold;">the proportion of puzzles</span><span
+              style="font-weight: bold;"></span><span
+              style="font-weight: bold;"> far above the </span><span
+              style="font-weight: bold;">n-clue </span><span
+              style="font-weight: bold;"> mean decreases.<br>
+              Graphically, the n-clue distribution looks like a wave;
+              when n increases, the wave moves to the right, with a
+              longer left tail and a steeper right front.<br>
+            </span></p>
+            <br>
+            <h3>2.1.4) The real SER rating (mean, standard deviation, skewness and kurtosis) as a
+              function of the number of clues</h3>
+            <p>Here again, we use the fact that, for any fixed number of
+            clues, the controlled-bias generator is completely unbiased.
+            As a result, each row of the the table below gives both the
+            controlled-bias and the real values for the n-clue SER. Only
+            the global mean value, standard deviation, skewness and
+            kurtosis have to be computed differently.<br>
+            Computations for the SER were done on a sub-sample of only
+            1,380,962 puzzles (corresponding to 65 full scans of gsf's
+            collection).</p>
+            <br>
+            <br>
+            <table style="text-align: left; width: 100%;" border="1"
+              cellpadding="2" cellspacing="2">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;">#clues</td>
+                  <td style="vertical-align: top;">#instances <br>
+                    in cb sample</td>
+                  <td style="vertical-align: top;">real mean(SER)<br>
+                  </td>
+                  <td style="vertical-align: top;">real
+                    standard-deviation(SER)<br>
+                  </td>
+                  <td style="vertical-align: top;">real skewness(SER)<br>
+                  </td>
+                  <td style="vertical-align: top;">real kurtosis(SER)</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">19<br>
+                  </td>
+                  <td style="vertical-align: top;">0<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">20<br>
+                  </td>
+                  <td style="vertical-align: top;">0<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">21<br>
+                  </td>
+                  <td style="vertical-align: top;">41<br>
+                  </td>
+                  <td style="vertical-align: top;">3.56 &nbsp;
+                    &nbsp;&nbsp; (*)<br>
+                  </td>
+                  <td style="vertical-align: top;">2.01 &nbsp;
+                    &nbsp;&nbsp; (*)<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">-
+                    0.65&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (*)</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">22<br>
+                  </td>
+                  <td style="vertical-align: top;">1,526</td>
+                  <td style="vertical-align: top;">3.15<br>
+                  </td>
+                  <td style="vertical-align: top;">2.16<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">- 0.24</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">23<br>
+                  </td>
+                  <td style="vertical-align: top;">25,884</td>
+                  <td style="vertical-align: top;">3.35<br>
+                  </td>
+                  <td style="vertical-align: top;">2.24<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">- 0.72</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">24<br>
+                  </td>
+                  <td style="vertical-align: top;">163,694</td>
+                  <td style="vertical-align: top;">3.61<br>
+                  </td>
+                  <td style="vertical-align: top;">2.36<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">- 1.18</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">25<br>
+                  </td>
+                  <td style="vertical-align: top;">422,451</td>
+                  <td style="vertical-align: top;">3.96<br>
+                  </td>
+                  <td style="vertical-align: top;">2.47<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">- 1.53 </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">26<br>
+                  </td>
+                  <td style="vertical-align: top;">467,047</td>
+                  <td style="vertical-align: top;">4.40<br>
+                  </td>
+                  <td style="vertical-align: top;">2.54<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">- 1.73</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">27<br>
+                  </td>
+                  <td style="vertical-align: top;">234,963</td>
+                  <td style="vertical-align: top;">4.93<br>
+                  </td>
+                  <td style="vertical-align: top;">2.53<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">- 1.68</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">28<br>
+                  </td>
+                  <td style="vertical-align: top;">57,615</td>
+                  <td style="vertical-align: top;">5.47<br>
+                  </td>
+                  <td style="vertical-align: top;">2.44<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">- 1.31</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">29<br>
+                  </td>
+                  <td style="vertical-align: top;">7,243</td>
+                  <td style="vertical-align: top;">6.07<br>
+                  </td>
+                  <td style="vertical-align: top;">2.19<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">- 0.32</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">30<br>
+                  </td>
+                  <td style="vertical-align: top;">481<br>
+                  </td>
+                  <td style="vertical-align: top;">6.76<br>
+                  </td>
+                  <td style="vertical-align: top;">1.71<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">+ 2.61 </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">31<br>
+                  </td>
+                  <td style="vertical-align: top;">16<br>
+                  </td>
+                  <td style="vertical-align: top;">5.79 &nbsp;
+                    &nbsp;&nbsp; (*)<br>
+                  </td>
+                  <td style="vertical-align: top;">2.34 &nbsp;
+                    &nbsp;&nbsp; (*)<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">+
+                    2.34&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (*)</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">32<br>
+                  </td>
+                  <td style="vertical-align: top;">1<br>
+                  </td>
+                  <td style="vertical-align: top;">7.3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    (*)<br>
+                  </td>
+                  <td style="vertical-align: top;">(*)<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    (*)</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">all<br>
+                  </td>
+                  <td style="vertical-align: top;">1,380,962</td>
+                  <td style="vertical-align: top; font-weight: bold;">4.73<br>
+                  </td>
+                  <td style="vertical-align: top; font-weight: bold;">2.49<br>
+                  </td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                  </td>
+                  <td style="vertical-align: top; font-weight: bold;">-
+                    0.41 &nbsp; &nbsp; &nbsp; (**)</td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <br>
+            (*) values based on small samples are not meaningful<br>
+            (**) although the standard deviation depends on the number
+            of clues, this dependency is small and we have used the
+            formula in section 1.3.<br>
+            <br>
+            <br>
+            Which gives:<br>
+            controlled-bias mean(SER) =
+            4.29&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            controlled-bias standard-deviation(SER) = 2.48&nbsp;&nbsp; controlled-bias
+            kurtosis(SER) = - 1.70<br>
+            <span style="font-weight: bold;">real mean(SER) =
+              4.73&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              real standard-deviation(SER) = 2.49</span><br>
+            These values are identical to those obtained in case the
+            source of complete grids was the suexg internal generator.</p>
+            <p>The conclusions obtained for the W rating could be
+            repeated unchanged for the SER rating.</p>
+            <br>
+            <h3>2.1.5) The estimated mean number of minimal n-clue puzzles per complete grid</h3>
+            <p>Finally, we can estimate the mean number of n-clue minimal
+            puzzles per complete grid. This is not useful for our
+            complexity computations, but it has been a longstanding open
+            question in the Sudoku world.</p>
+            <br>
+            <table style="text-align: left; width: 100%;" border="1"
+              cellpadding="2" cellspacing="2">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;">#clues<br>
+                  </td>
+                  <td style="vertical-align: top;">number of n-clue
+                    minimal puzzles per complete grid<br>
+                    mean<br>
+                  </td>
+                  <td style="vertical-align: top;">number of n-clue
+                    minimal puzzles per complete grid<br>
+                    error (1 standard deviation)<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">19<br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                  <td style="vertical-align: top;"><br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">20<br>
+                  </td>
+                  <td style="vertical-align: top;">6.152e+6<br>
+                  </td>
+                  <td style="vertical-align: top;">70.7%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">21<br>
+                  </td>
+                  <td style="vertical-align: top;">1.4654e+9<br>
+                  </td>
+                  <td style="vertical-align: top;">7.81%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">22<br>
+                  </td>
+                  <td style="vertical-align: top;">1.6208e+11<br>
+                  </td>
+                  <td style="vertical-align: top;">1.23%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">23<br>
+                  </td>
+                  <td style="vertical-align: top;">6.8827e+12<br>
+                  </td>
+                  <td style="vertical-align: top;">0.30%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">24<br>
+                  </td>
+                  <td style="vertical-align: top;">1.0637e+14<br>
+                  </td>
+                  <td style="vertical-align: top;">0.12%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">25<br>
+                  </td>
+                  <td style="vertical-align: top;">6.2495e+14<br>
+                  </td>
+                  <td style="vertical-align: top;">0.074%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">26<br>
+                  </td>
+                  <td style="vertical-align: top;">1.4855e+15<br>
+                  </td>
+                  <td style="vertical-align: top;">0.071%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">27<br>
+                  </td>
+                  <td style="vertical-align: top;">1.5228e+15<br>
+                  </td>
+                  <td style="vertical-align: top;">0.10%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">28<br>
+                  </td>
+                  <td style="vertical-align: top;">7.2063e+14<br>
+                  </td>
+                  <td style="vertical-align: top;">0.20%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">29<br>
+                  </td>
+                  <td style="vertical-align: top;">1.6751e+14<br>
+                  </td>
+                  <td style="vertical-align: top;">0.56%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">30<br>
+                  </td>
+                  <td style="vertical-align: top;">1.9277e+13<br>
+                  </td>
+                  <td style="vertical-align: top;">2.2%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">31<br>
+                  </td>
+                  <td style="vertical-align: top;">1.1240e+12<br>
+                  </td>
+                  <td style="vertical-align: top;">11.6%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">32<br>
+                  </td>
+                  <td style="vertical-align: top;">4.7465e+10<br>
+                  </td>
+                  <td style="vertical-align: top;">70.7%<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">all<br>
+                  </td>
+                  <td style="vertical-align: top;">4.6563e+15<br>
+                  </td>
+                  <td style="vertical-align: top;">0.065%<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <p>which (still with 0.065% relative error):<br>
+            - multiplied by the number of complete grids
+            (6,670,903,752,021,072,936,960) gives an estimated total of
+            <span style="font-weight: bold;">3.1055e+37 minimal puzzles</span>
+            <br>
+            - multiplied by the number of non isomorphic grids
+            (5,472,730,538) gives "only" an estimated total of <span
+              style="font-weight: bold;">2.5477e+25 non equivalent
+              minimal puzzles.</span></p>
+            <br>
+            <br>
+            <h2>2.2) Relative insensitivity of the controlled-bias generator to the
+                source of complete grids</h2>
+            <p>This sub-section gives the results when suexg internal
+            generator of complete grids is used instead of gsf's
+            collection. It shows that the controlled-bias generator is
+            relatively insensitive to the source of complete grids: even
+            a strong bias in this source (suexg is known to generate
+            complete grids with 20% more minimals than an ubiased
+            source) has almost no effect on the collection of cb
+            minimals.</p>
+            <br>
+            <h3>2.2.1) The number of clues of minimal puzzles</h3>
+            <p>controlled-bias average = 25.65
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            controlled-bias standard-deviation = 1.113<br>
+            <span style="font-weight: bold;">real (estimated) average =
+              26.56</span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; real (estimated) standard-deviation =
+            1.113<br>
+            <br>
+            The real, unbiased value for the mean number of clues of
+            minimal puzzles is 0.9 more than the raw mean number given
+            by the controlled-bias generator. <br>
+            <br>
+            Above all, it is instructive to compare the mean values
+            obtained for different generators with the estimated real
+            value:</p>
+            <br>
+            <table style="text-align: left; width: 100%;" border="1"
+              cellpadding="2" cellspacing="2">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;">generators<br>
+                  </td>
+                  <td style="vertical-align: top;">bottom-up generator <br>
+                    (suexg-bu)</td>
+                  <td style="vertical-align: top;">top-down generator<br>
+                    (suexg-td)</td>
+                  <td style="vertical-align: top;">controlled-bias
+                    generator <br>
+                    (suexg-cb)</td>
+                  <td style="vertical-align: top;">real value <br>
+                    (suexg-cb with correction factors)</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">mean number of clues<br>
+                  </td>
+                  <td style="vertical-align: top;">23.87</td>
+                  <td style="vertical-align: top;">24.38</td>
+                  <td style="vertical-align: top;">25.65</td>
+                  <td style="vertical-align: top;">26.56<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <br>
+            <p>The following estimates are merely the product of the
+            observed distribution and the correction factors, namely
+            on(n) * cf(n) (normalised, of course, by sum(on(n) * cf(n)).<br>
+            Figures in this section, especially for the tail of the
+            distribution, should therefore be taken with care, due to
+            the relatively small sample size.</p>
+            <br>
+            <table style="text-align: left; width: 568px; height:
+              372px;" border="1" cellpadding="2" cellspacing="2">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;">#clues</td>
+                  <td style="vertical-align: top;">controlled-bias
+                    instances<br>
+                    (for the 500,000 suexg-cb sample)<br>
+                  </td>
+                  <td style="vertical-align: top;">real instances
+                    (estimated)<br>
+                    (normalised to 1,000,000 puzzles) **<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">19<br>
+                  </td>
+                  <td style="vertical-align: top;">0<br>
+                  </td>
+                  <td style="vertical-align: top;">0.0 (*)<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">20<br>
+                  </td>
+                  <td style="vertical-align: top;">2<br>
+                  </td>
+                  <td style="vertical-align: top;">1.6e-06 (*)<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">21<br>
+                  </td>
+                  <td style="vertical-align: top;">4<br>
+                  </td>
+                  <td style="vertical-align: top;">9.2e-06 (*)<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">22<br>
+                  </td>
+                  <td style="vertical-align: top;">615<br>
+                  </td>
+                  <td style="vertical-align: top;">3.9e-03<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">23<br>
+                  </td>
+                  <td style="vertical-align: top;">9,848<br>
+                  </td>
+                  <td style="vertical-align: top;">0.159<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">24<br>
+                  </td>
+                  <td style="vertical-align: top;">60,576<br>
+                  </td>
+                  <td style="vertical-align: top;">2.356<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">25<br>
+                  </td>
+                  <td style="vertical-align: top;">154,024<br>
+                  </td>
+                  <td style="vertical-align: top;">13.66<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">26<br>
+                  </td>
+                  <td style="vertical-align: top;">168,070<br>
+                  </td>
+                  <td style="vertical-align: top;">32.10<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">27<br>
+                  </td>
+                  <td style="vertical-align: top;">83,911<br>
+                  </td>
+                  <td style="vertical-align: top;">32.65<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">28<br>
+                  </td>
+                  <td style="vertical-align: top;">20,234<br>
+                  </td>
+                  <td style="vertical-align: top;">15.18<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">29<br>
+                  </td>
+                  <td style="vertical-align: top;">2,566<br>
+                  </td>
+                  <td style="vertical-align: top;">3.53<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">30<br>
+                  </td>
+                  <td style="vertical-align: top;">147<br>
+                  </td>
+                  <td style="vertical-align: top;">0.35<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">31<br>
+                  </td>
+                  <td style="vertical-align: top;">3<br>
+                  </td>
+                  <td style="vertical-align: top;">0.0117 (*)<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">32<br>
+                  </td>
+                  <td style="vertical-align: top;">0<br>
+                  </td>
+                  <td style="vertical-align: top;">0 (*)<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <p>* values based on few data are not reliable.<br>
+            ** the number of digits given here is obviously above the
+            precision allowed by the sample.</p>
+            <br>
+            <h3>2.2.2) Correlation coefficients</h3>
+            <p>#clues vs SER = 0.20<br>
+            #clues vs W = 0.19<br>
+            SER vs W = 0.90</p>
+            <br>
+            <br>
+            <h3>2.2.3) Conclusions</h3>
+            <p>Form the above results, we can conclude that, when we use a
+            controlled-bias genereator of minimal puzzles, the source of
+            complete grids leads to very small differences in the
+            controlled-bias and the unbiased statistics.<br>
+            This can be understood on the basis of the results in
+            section 2 relative to:<br>
+            - the very weak correlation between the number of clues and
+            the SER or W+S ratings,<br>
+            - the small trend for increasing SER or W with
+            increasing number of clues.</p>
+            <br>
+            <h2>2.3) The real W distribution of minimal puzzles</h2>
+            <p>Using the results obtained with the controlled-bias
+            generator, we can now give the real (W) complexity
+            distribution of the minimal puzzles, which may be considered
+            the ultimate goal of this section.<br>
+            It is interesting to compare it with the distributions
+            obtained with different kinds of generators (bottom-up,
+            top-down, controllled-bias).</p>
+            <br>
+            <br>
+            <table style="text-align: left; width: 100%;" border="1"
+              cellpadding="2" cellspacing="2">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;">generator<br>
+                    (sample size)<br>
+                  </td>
+                  <td style="vertical-align: top;">L1_0<br>
+                  </td>
+                  <td style="vertical-align: top;">L1<br>
+                  </td>
+                  <td style="vertical-align: top;">L2<br>
+                  </td>
+                  <td style="vertical-align: top;">L3<br>
+                  </td>
+                  <td style="vertical-align: top;">L4<br>
+                  </td>
+                  <td style="vertical-align: top;">L5<br>
+                  </td>
+                  <td style="vertical-align: top;">L6<br>
+                  </td>
+                  <td style="vertical-align: top;">L7<br>
+                  </td>
+                  <td style="vertical-align: top;">L8<br>
+                  </td>
+                  <td style="vertical-align: top;">L9<br>
+                  </td>
+                  <td style="vertical-align: top;">L10<br>
+                  </td>
+                  <td style="vertical-align: top;">L11<br>
+                  </td>
+                  <td style="vertical-align: top;">L12<br>
+                  </td>
+                  <td style="vertical-align: top;">L13<br>
+                  </td>
+                  <td style="vertical-align: top;">L14<br>
+                  </td>
+                  <td style="vertical-align: top;">L15<br>
+                  </td>
+                  <td style="vertical-align: top;">L16<br>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">bottom-up<br>
+                    (10,000)<br>
+                  </td>
+                  <td style="vertical-align: top;">46.27</td>
+                  <td style="vertical-align: top;">13.32</td>
+                  <td style="vertical-align: top;">12.36</td>
+                  <td style="vertical-align: top;">15.17</td>
+                  <td style="vertical-align: top;">10.18</td>
+                  <td style="vertical-align: top;">1.98</td>
+                  <td style="vertical-align: top;">0.49</td>
+                  <td style="vertical-align: top;">0.19</td>
+                  <td style="vertical-align: top;">0.020</td>
+                  <td style="vertical-align: top;">0.010 *<br>
+                  </td>
+                  <td style="vertical-align: top;">0 *<br>
+                  </td>
+                  <td style="vertical-align: top;">0.01 *<br>
+                  </td>
+                  <td style="vertical-align: top;">0 *</td>
+                  <td style="vertical-align: top;">0 *</td>
+                  <td style="vertical-align: top;">0 *<br>
+                  </td>
+                  <td style="vertical-align: top;">0 *<br>
+                  </td>
+                  <td style="vertical-align: top;">0 *</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">top-down<br>
+                    (1,000,000)<br>
+                  </td>
+                  <td style="vertical-align: top;">41.76</td>
+                  <td style="vertical-align: top;">12.06</td>
+                  <td style="vertical-align: top;">13.84</td>
+                  <td style="vertical-align: top;">16.86</td>
+                  <td style="vertical-align: top;">12.29</td>
+                  <td style="vertical-align: top;">2.42</td>
+                  <td style="vertical-align: top;">0.55</td>
+                  <td style="vertical-align: top;">0.15</td>
+                  <td style="vertical-align: top;">0.047</td>
+                  <td style="vertical-align: top;">0.013</td>
+                  <td style="vertical-align: top;">3.8e-03</td>
+                  <td style="vertical-align: top;">1.5e-03</td>
+                  <td style="vertical-align: top;">9.0e-04<br>
+                  </td>
+                  <td style="vertical-align: top;">2.0e-04 *<br>
+                  </td>
+                  <td style="vertical-align: top;">0 *<br>
+                  </td>
+                  <td style="vertical-align: top;">0 *<br>
+                  </td>
+                  <td style="vertical-align: top;">0 *</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top;">controlled-bias<br>
+                    (5,926,343)<br>
+                  </td>
+                  <td style="vertical-align: top;">35.08</td>
+                  <td style="vertical-align: top;">9.82</td>
+                  <td style="vertical-align: top;">13.05</td>
+                  <td style="vertical-align: top;">20.03</td>
+                  <td style="vertical-align: top;">17.37</td>
+                  <td style="vertical-align: top;">3.56</td>
+                  <td style="vertical-align: top;">0.79</td>
+                  <td style="vertical-align: top;">0.21</td>
+                  <td style="vertical-align: top;">0.055</td>
+                  <td style="vertical-align: top;">0.015</td>
+                  <td style="vertical-align: top;">4.4e-03</td>
+                  <td style="vertical-align: top;">1.2e-03</td>
+                  <td style="vertical-align: top;">3.2e-04</td>
+                  <td style="vertical-align: top;">1.0e-04 *<br>
+                  </td>
+                  <td style="vertical-align: top;">6.75e-05 *<br>
+                  </td>
+                  <td style="vertical-align: top;">1.7e-05 *<br>
+                  </td>
+                  <td style="vertical-align: top;">1.7e-05 *</td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top; font-weight: bold;">real<br>
+                    (computed from<br>
+                    controlled-bias)<br>
+                  </td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    29.17</td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    8.44</td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    12.61</td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    22.26</td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    21.39</td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    4.67</td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    1.07</td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    0.29</td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    0.072</td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    0.020</td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    5.5e-03</td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    1.5e-03<br>
+                  </td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    3.4e-04<br>
+                  </td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    0.7e-04 *<br>
+                  </td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    7.17e-05 *<br>
+                  </td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    6.3e-05 *<br>
+                  </td>
+                  <td style="vertical-align: top; font-weight: bold;"><br>
+                    0.32e-05 *<br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <p>* values based on a small sub-sample are not reliable.</p>
+            <br>
+            <p>These distributions show very clearly the complexity bias of
+            the three kinds of generators.<br>
+            All these distributions have the same two modes, at L1_0 and
+            at L3, as the real distribution.<br>
+            It can be seen that when one moves from bottom-up to
+            top-down to controlled-bias to real, the distribution moves
+            progressively to the right.<br>
+            This displacement towards higher complexity occurs mainly at
+            the first W-levels, after which it is only very slight.<br>
+            <br>
+            <span style="font-weight: bold;">In any cases:</span><br
+              style="font-weight: bold;">
+            <span style="font-weight: bold;">- more than 99% of the
+              puzzles can be solved with whips of maximal length 7,</span><br
+              style="font-weight: bold;">
+            <span style="font-weight: bold;">- more than 99.9% of the
+              puzzles can be solved with whips of maximal length 9.</span><br>
+            <br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+  </body>
+</html>
