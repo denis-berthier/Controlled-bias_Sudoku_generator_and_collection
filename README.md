@@ -12,7 +12,7 @@ In 2009, I defined a new type of generator, which I called the **_controlled-bia
 
 
 ## 2. The contents of this repository<br>
-This repository consists mainly of four folders: SMALL-CB-COLLECTIONS, CB-GLOBAL-DATA,  PROGRAMS and Docs.<br><br>
+This repository consists mainly of four folders: SMALL-CB-COLLECTIONS, CB-RESULTS,  PROGRAMS and Docs.<br><br>
 
 ### The SMALL-CB-COLLECTIONS folder contains independent controlled-bias collections of puzzles.<br>
 In practice, it is easier to do separate computations on several small collections than on a very large one.<br>
@@ -23,7 +23,7 @@ The name of each file is the seed used to generate random numbers in the control
 Files have different sizes, due to the generating method. The smallest ones have about 21,000 puzzles.<br>
 Some files are about four times larger than other ones (and thus have about 84,000 puzzles), because each complete grid was submitted to the controlled-bias generator four times instead of one in the other cases. This has no impact on controlled-bias computations based on them.<br><br>
 
-### The CB-GLOBAL-DATA folder contains various controlled-bias results:<br>
+### The CB-RESULTS folder contains various controlled-bias results:<br>
 * "puzzles.txt" would be the full collection of 5,926,343 puzzles I generated using the controlled-bias generator, used in [PBCS] to study the distribution of minimal puzzles. However, due to restriction on the size of files in GitHub, it is not to be found anywhere in this repository. You can build it by concatenating the individual files present in the SMALL-CB-COLLECTIONS folder, following the order of their presence in the Excel file: Total.xlsx (in the Docs folder).<br>
 * "nb-clues.txt" is the corresponding collection of their numbers of clues, in the same order;<br>
 * "W-ratings.txt" is the corresponding collection of their W-ratings, as defined in [PBCS] and computed with the CSP-Rules software: https://github.com/denis-berthier/CSP-Rules-V2.1 (with 0.1 replacing 0), in the same order;<br>
