@@ -28,8 +28,8 @@ Some files are about four times larger than other ones (and thus have about 84,0
 * "nb-clues.txt" is the corresponding collection of their numbers of clues, in the same order;<br>
 * "W-ratings.txt" is the corresponding collection of their W-ratings, as defined in [PBCS] and computed with the CSP-Rules software: https://github.com/denis-berthier/CSP-Rules-V2.1 (with 0.1 replacing 0), in the same order;<br>
 * "nb-tries" is the corresponding collection of the number of complete grids used by the controlled-bias generator before the puzzle was obtained, in the same order; (it is only useful to give an idea of why the controlled-bias generator is so much slower than a top-down one: it takes about 250,000 complete grids to obtain a puzzle);<br>
-* "SER-ratings" is the corresponding collection of the Sudoku Explainer ratings, in the same order, but limited to the first 3,037,717 puzzles.
-<br><br>
+* "SER-ratings" is the corresponding collection of the Sudoku Explainer ratings, in the same order, but limited to the first 3,037,717 puzzles.<br>
+Notice that, in addition to the results here, CSP-Rules-V2.1 has a cbg-000 folder in the Sudoku examples where more ratings are computed and compared for a small part (the first 21,375) of the CB puzzles.<br><br>
 
 
 ### The PROGRAMS folder contains the various generators:<br>
@@ -39,7 +39,7 @@ See the README.md file in this folder for more information on how to compile and
 ### The Docs folder contains:
 * my article [Berthier 2009];
 * a "Comparisons.pdf" file stating the results of comparing the various generators in the "PROGRAMS" folder (plus other ones);
-* a "W-classification-results.pdf" file stating the detailed results of the W classification, obtained thanks to the programs and data in this repository and to the CSP-Rules software: https://github.com/denis-berthier/CSP-Rules-V2.1 ; it repeats much of [Berthier 2009] but it provides more details and results than a single article can do.
+* a "W-classification-results.pdf" file stating the detailed results of the W classification, obtained thanks to the programs and data in this repository and to the CSP-Rules software: https://github.com/denis-berthier/CSP-Rules-V2.1 ; it repeats much of [Berthier 2009] but it provides more details and results than a single article can do. 
 * a "Total.xlsx" file, recalling the number of puzzles per file in the "SMALL-CB-COLLECTIONS" folder. The order in this file is also the order in which they must be assembled in case you wanted a unique arge file of puzzles. It also corresponds to the order used for the global result files in the "CB-RESULTS" folder.
 
 
