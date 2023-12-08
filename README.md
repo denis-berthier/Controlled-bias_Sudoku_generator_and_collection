@@ -109,7 +109,7 @@ Each folder with name \<xxx\> contains various files:
 
 * an \<xxx\>-B-ratings.txt file, which contains the corresponding B-ratings; 
 
-* an \<xxx\>-FPGXnoU-ratings.txt file, which contains the corresponding FGPX ratings with rules for uniqueness disabled. (FPGX is a slightly faster version of SER, with some problems of isomorphism-dependency corrected and with rules for uniqueness de-activated.)
+* an \<xxx\>-FPGXnoU-ratings.txt file, which contains the corresponding FGPX ratings with rules for uniqueness disabled. (FPGX is a slightly faster version of SER, with some problems of isomorphism-dependency corrected and with rules for uniqueness de-activated. It is now included in the PROGRAMS folder, where more details about it can be found in the local README.md file.)
 * an \<xxx\>-SER.txt file, which contains the corresponding SER ratings.<br><br> 
 
 
