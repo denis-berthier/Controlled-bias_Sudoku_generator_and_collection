@@ -44,6 +44,8 @@ The four programs given here can be used as standalone. suexg-cb and suexg-cb-Pa
 
 The two versions suexg-cb and suexg-cb-Paul-optim48 have been used to generate the small-cb-collections and the resulting 5,926,343 puzzles. They differ only in the speed of producing puzzles.<br>
 
+This folder also containes the FGPX version of SER, used to compute the FGPXnoU ratings.<br>
+
 
 #### 3.1 How to compile the programs
 
@@ -107,10 +109,13 @@ Each folder with name \<xxx\> contains various files:
 
 * an \<xxx\>-W-ratings.txt file, which contains the corresponding W-ratings; 
 
+* an \<xxx\>-gW-ratings.txt file, which contains the corresponding gW-ratings; 
+
 * an \<xxx\>-B-ratings.txt file, which contains the corresponding B-ratings; 
 
-* an \<xxx\>-FPGXnoU-ratings.txt file, which contains the corresponding FGPX ratings with rules for uniqueness disabled. (FPGX is a slightly faster version of SER, with some problems of isomorphism-dependency corrected and with rules for uniqueness de-activated. It is now included in the PROGRAMS folder, where more details about it can be found in the local README.md file.)
-* an \<xxx\>-SER.txt file, which contains the corresponding SER ratings.<br><br> 
+* an \<xxx\>-SER.txt file, which contains the corresponding SER ratings;
+
+* an \<xxx\>-FPGXnoU-ratings.txt file, which contains the corresponding FGPX ratings with rules for uniqueness disabled. (FPGX is a faster version of SER, with some problems of isomorphism-dependency corrected and with rules for uniqueness de-activated. It is now included in the PROGRAMS folder, where more details about it can be found in the local README.md file.).<br><br>
 
 
 
@@ -125,7 +130,7 @@ All the files in the same "small" folder have the same length.<br><br>
 As for the tools used for the calculations: <br> 
 
 
-* All the calculations for W-ratings, nb-clues, nb-cands-after-BRT, nb-cands-after-W1 and W-ratings were done with the current version of SudoRules-V20.1 (the Sudoku part of [CSP-Rules]) as of this writing (2023, Nov. 24).<br>
+* All the calculations for nb-clues, nb-cands-after-BRT, nb-cands-after-W1, W-ratings and gW-ratings were done with the current version of SudoRules-V20.1 (the Sudoku part of [CSP-Rules]) as of this writing (2023, Nov. 24).<br>
 * All the calculations for the B-ratings were done with the current version of [SHC] as of this writing.<br>
 * All the calculations for the FPGX-noU ratings were done with [FPGX], a slightly faster variant of SER, with some of the isomorphism-dependency problems of SER solved, including modifications by "1to9only", "iksudoku" and "creint").<br><br><br><br>
 
@@ -139,7 +144,7 @@ More precisely, for each file type \<ttt\> in any of the SMALL-CB-COLLECTIONS su
 * a CLIPS function for generating the Unix script.<br>
 The UNix scripts must be run from the "GLOBAL-CB-RESULTS" folder.<br>
 
-Global files resulting from the above scripts are named all-\<ttt\>.text (e.g. "all-puzzles.txt", "all-nb-clues.txt", "all-W-ratings.txt"...).<br>
+Global files resulting from the above scripts are named all-\<ttt\>.text (e.g. "all-puzzles.txt", "all-nb-clues.txt", "all-W-ratings.txt", "all-gW-ratings.txt"...).<br>
 
 Once assembled, all the global files should have exactly 5,926,343 lines.<br>
 
@@ -161,8 +166,8 @@ However, you can use the scripts in almost unrestricted ways by selecting only t
 ## 7. THE "CB-stats.clp" FILE<br>
 It contains:
 * SudoRules commands for computing the statistical results exploiting the full collection of puzzles and ratings;
-* explanations of how to use them;
-* results of their execution.<br>
+* results of their execution;
+* comments on the results.<br>
 
 It is the most up-to-date version of these results, with all the calculations done on the whole collection of 5,926,343 controlled-bias puzzles.<br>
 Notice however that, in addition to the results here, [CSP-Rules-Examples] has a cbg-000 folder in its Sudoku examples folder where more ratings are computed and compared (e.g. S+W, gW, W+uniqueness...). Considering the computation times all these ratings required, this was done for only a small part (the first 21,375) of the full controlled-bias collection (and  this was enough for the additional conclusions drawn for them).<br><br><br><br>

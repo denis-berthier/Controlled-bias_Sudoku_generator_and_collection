@@ -16,28 +16,27 @@
                ;;;                                                    ;;;
                ;;;              copyright Denis Berthier              ;;;
                ;;;  https://github.com/denis-berthier/CSP-Rules-V2.1  ;;;
-               ;;;            January 2006 - December 2023            ;;;
+               ;;;            January 2006 - January 2024             ;;;
                ;;;                                                    ;;;
                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
 
-;;; This file is an addition to CSP-Rules-V2.1.
-;;; It gives the SudoRules commands for reproducing the computations
+;;; This file gives the SudoRules commands for reproducing the computations
 ;;; for the correlation and controlled-bias results published in [PBCS].
 ;;; The Controlled_bias_Sudoku_generator_and_collection is supposed to be
 ;;; installed in the same CSP-Rules directory as CSP-Rules-V2.1.
 
 ;;; WARNING for people with little background in statistcs:
 ;;; as any statistical results, those below rely on the distributions under discussion,
-;;; i.e. controlled-bias and unbiased.
+;;; i.e. the controlled-bias and unbiased ones.
 ;;; Obviously, they cannot be extended to other distributions such as:
 ;;; - puzzles with large number of clues (or candidates);
 ;;; - the hardest puzzles;
 ;;; - puzzles with some particular pattern (be it of cells for the clues or of candidates);
-;;; - puzzles in T&E(2) or T&E(3);
+;;; - puzzles in T&E(2) or T&E(3).
 ;;; Any such collection has weight close to 0 in the unbiased statistics.
-;;; Similarly, any collection produced by a simple bottom-up or top-down generator will have a different distribution...
+;;; Similarly, any collection produced by a simple bottom-up or top-down generator will have a different distribution (see file "comparisons.pdf" in the DOCS folder.
 
 
 
@@ -60,11 +59,11 @@
 
 ;;; To use the statistical functions below, you need to load SudoRules
 ;;; (but you don't need to have any rules activated).
-;;; Then, you have the CSP-Rules folder already defined in the configuration file by:
+;;; Then, you will have the CSP-Rules folder already defined in the configuration file by:
 ;;; (defglobal ?*CSP-Rules* = <your path to the folder before CSP-Rules> "/CSP-Rules/")
 
-;;; You now need to define the CBGC folder:
-(defglobal ?*CBGC* = (str-cat ?*CSP-Rules* "CBGC/")
+;;; You now need only to define the CBGC folder:
+(defglobal ?*CBGC* = (str-cat ?*CSP-Rules* "CBGC/"))
 
 
 
@@ -75,8 +74,9 @@
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; No correlation (0.12) between the number of clues and the number of candidates after BRT
-(correlation-coefficient 
+;;; No correlation (0.12) between the number of clues and the number of candidates after BRT:
+
+(correlation-coefficient
     nb-clues
     nb-cands-after-BRT
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-nb-cands-after-BRT.txt")
@@ -91,11 +91,11 @@ correlation-coefficient(nb-clues, nb-cands-after-BRT) = 0.120017867212229
 regression nb-cands-after-BRT = a * nb-clues + b (meaningless for small correlation)
 a = 0.00195790984926306
 b = 25.5019811710227
-TO REDO WITHOUT the W0 puzzles
 
 
-;;; No correlation (0.16) between the number of clues and the number of candidates after W1
-(correlation-coefficient 
+;;; No correlation (0.16) between the number of clues and the number of candidates after W1:
+
+(correlation-coefficient
     nb-clues
     nb-cands-after-W1
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-nb-clues.txt")
@@ -110,11 +110,11 @@ correlation-coefficient(nb-clues, nb-cands-after-W1) = 0.160638668235772
 regression nb-cands-after-W1 = a * nb-clues + b (meaningless for small correlation)
 a = 9.34872575798019
 b = -174.369887053085
-TO REDO WITHOUT the W1 puzzles
 
 
-;;; Significant correlation (0.83) between the number of candidates after BRT and the number of candidates after W1
-(correlation-coefficient 
+;;; Significant correlation (0.83) between the number of candidates after BRT and the number of candidates after W1:
+
+(correlation-coefficient
     nb-cands-after-BRT
     nb-cands-after-W1
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-nb-cands-after-BRT.txt")
@@ -129,7 +129,6 @@ correlation-coefficient(nb-cands-after-BRT, nb-cands-after-W1) = 0.8288851820187
 regression nb-cands-after-W1 = a * nb-cands-after-BRT + b
 a = 0.786943381573558
 b = -0.638561368340206
-TO REDO WITHOUT the W1 puzzles
 
 
 
@@ -144,21 +143,27 @@ TO REDO WITHOUT the W1 puzzles
 ;;; and of the confluence property of the Bn resolution theories, W is always ≥ B.
 ;;; The following results show that the W and B ratings are very rarely different
 ;;; (in only 0.26% of the controlled-bias puzzles).
-;;; When they are different:
+;;; Moreover, when they are different:
 ;;; - it's very rarely by more than 1 (in only 0.011% of the controlled-bias puzzles).
 ;;; - it's extremely rarely by more than 2 (in only 0.00066%, i.e. 6.6 in one million, of the controlled-bias puzzles).
 
 ;;; This is what I have called long ago "THE MIRACLE OF WHIPS":
-;;; although they are structurally and computationally much simpler than braids,
+;;; although they are structurally and computationally much simpler than braids
+;;; ("exponentially" simpler wrt length),
 ;;; they give "almost always" the same results.
 
 
-(compare-ratings-in-files W B
+(compare-ratings-in-files 
+    W
+    B
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-W-ratings.txt")
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-B-ratings.txt")
     5926343
 )
+
 15238 differences (0.257%)
+15238 positive differences
+0 negative differences
 ;;; checked manually
 14574 times diff = 1 (0.25 %)
 625 times diff = 2 (0.011 %)
@@ -187,6 +192,7 @@ TO REDO WITHOUT the W1 puzzles
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-W-ratings.txt")
     5926343
 )
+
 E(B) = 1.8990780655119
 E(W) = 1.90176876363716
 Sigma(B) = 1.70193103036719
@@ -198,7 +204,7 @@ b = -0.00377985083926502
 
 
 
-;;; Very low correlation (0.19) between the W rating and the number of clues.
+;;; Very low correlation (0.19) between the W rating and the number of clues:
 
 (correlation-coefficient 
     nb-clues
@@ -207,6 +213,7 @@ b = -0.00377985083926502
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-W-ratings.txt")
     5926343
 )
+
 E(nb-clues) = 25.6667359617875
 E(W) = 1.90176876363716
 Sigma(nb-clues) = 1.11661844035196
@@ -218,7 +225,7 @@ b = -5.63252873575296
 
 
 
-;;; Significant correlation (0.80) between the W rating and the number of candidates after BRT.
+;;; Significant correlation (0.80) between the W rating and the number of candidates after BRT:
 
 (correlation-coefficient 
     nb-cands-after-BRT
@@ -227,6 +234,7 @@ b = -5.63252873575296
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-W-ratings.txt")
     5926343
 )
+
 E(nb-cands-after-BRT) = 84.1483027560163
 E(W) = 1.90176876363716
 Sigma(nb-cands-after-BRT) = 68.4475660364698
@@ -235,11 +243,10 @@ correlation-coefficient(nb-cands-after-BRT, W) = 0.799205186917703
 regression W = a * nb-cands-after-BRT + b
 a = 0.0199496692116335
 b = 0.22303795893425
-TO REDO WITHOUT the W0 puzzles
 
 
 
-;;; Significant correlation (0.87) between the W rating and the number of candidates after W1.
+;;; Significant correlation (0.87) between the W rating and the number of candidates after W1:
 
 (correlation-coefficient 
     nb-cands-after-W1
@@ -258,7 +265,7 @@ a = 0.0229006184646287
 b = 0.399914405932091
 
 
-;;; Significant correlation (0.83) between the number of candidates after BRT and the number of candidates after W1.
+;;; Significant correlation (0.83) between the number of candidates after BRT and the number of candidates after W1:
 
 (correlation-coefficient 
     nb-cands-after-BRT
@@ -298,6 +305,7 @@ b = -0.638561368340206
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-FPGXnoU-ratings.txt")
     5926343
 )
+
 E(SER) = 4.29323709410655
 E(FPGXnoU) = 4.37740059932414
 Sigma(SER) = 2.53596598822567
@@ -309,7 +317,7 @@ b = 0.049685908100817
 
 
 
-;;; High correlation (0.917) between the FPGXnoU and the W ratings
+;;; High correlation (0.917) between the FPGXnoU and the W ratings:
 
 (correlation-coefficient 
     W
@@ -318,6 +326,7 @@ b = 0.049685908100817
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-FPGXnoU-ratings.txt")
     5926343
 )
+
 E(W) = 1.90176876363716
 E(FPGXnoU) = 4.37740059932414
 Sigma(W) = 1.70858037850751
@@ -329,7 +338,7 @@ b = 1.73552232235031
 
 
 
-;;; High correlation (0.912) between the SER and the W ratings
+;;; High correlation (0.912) between the SER and the W ratings:
 
 (correlation-coefficient 
     W
@@ -338,6 +347,7 @@ b = 1.73552232235031
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-SER.txt")
     5926343
 )
+
 E(W) = 1.90176876363716
 E(SER) = 4.29323709410655
 Sigma(W) = 1.70858037850751
@@ -349,11 +359,78 @@ b = 1.71875778836562
 
 
 
+(compare-ratings-in-files 
+    SER
+    FGPXnoU
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-SER.txt")
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-FPGXnoU-ratings.txt")
+    5926343
+)
+366671 differences (6.19%)
+186 positive differences
+366485 negative differences
+
+
+(compare-diff-ratings-in-files 
+    SER
+    FGPXnoU
+    0.11
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-SER.txt")
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-FPGXnoU-ratings.txt")
+    5926343
+)
+290490 meaningful (i.e. > 0.11) differences (4.90%)
+72 meaningful (i.e. > 0.11) positive differences
+290418 meaningful (i.e. > 0.11) negative differences
+
+
+(compare-diff-ratings-in-files 
+    SER
+    FGPXnoU
+    0.21
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-SER.txt")
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-FPGXnoU-ratings.txt")
+    5926343
+)
+280724 meaningful (i.e. > 0.21) differences (4.74%)
+27 meaningful (i.e. > 0.21) positive differences
+280697 meaningful (i.e. > 0.21) negative differences
+
+
+(compare-diff-ratings-in-files 
+    SER
+    FGPXnoU
+    0.31
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-SER.txt")
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-FPGXnoU-ratings.txt")
+    5926343
+)
+270355 meaningful (i.e. > 0.31) differences (4.56%)
+5 meaningful (i.e. > 0.31) positive differences
+270350 meaningful (i.e. > 0.31) negative differences
+
+#1192670; SER = 8.8; FGPXnoU = 8.4; diff = 0.4
+.....6.......891..7.9...........394.51.9..8.3.38.24.....52..4..6...7..9........5. 387373
+
+#1284282; SER = 8.8; FGPXnoU = 8.4; diff = 0.4
+........9457........937..4...........159....89.8.4.16..6.....9......5...83...1.52 94624
+
+#1990228; SER = 7.2; FGPXnoU = 6.8; diff = 0.4
+1.....7.945.1..2..6.8.7..........193..9...4...4.....253.27......8.5........26.3.. 26 649538
+
+#2273360; SER = 7.2; FGPXnoU = 6.8; diff = 0.4
+..3.5..8.4....9.2..8...2.1426.....3.57..........6....5...86...7...2.14.8.......6. 25 41660
+
+#4904804; SER = 7.2; FGPXnoU = 6.8; diff = 0.4
+1.3..6.........326.....2........1....3..7...291..4.6...9.8....176..1..95....9.27. 26   241358
+
+
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
-;;; 5) Controlled-bias computations
+;;; 5) Controlled-bias computations for the W and B ratings, and their difference
 ;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -364,6 +441,7 @@ b = 1.71875778836562
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-nb-clues.txt")
     5926343
 )
+
 nb-clues   nb-instances
 19         0
 20         2
@@ -421,13 +499,15 @@ controlled-bias distribution: (35.08 9.82 13.05 20.03 17.37 3.56 0.79 0.21 0.056
 real unbiased distribution: (29.17 8.44 12.61 22.26 21.39 4.67 1.07 0.29 0.073 0.0203 0.0055 0.0015 0.00037 0.000086 0.000072 0.000063 0.0000032 0.0 0.0 0.0 0.0 100.0)
 
 
-;;; Considreing how close W and B are, the following should be no surprise
+;;; Considering how close W and B are, the following should be no surprise:
+
 (unbiased-X-distribution-19-32
     B
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-B-ratings.txt")
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-nb-clues.txt")
     5926343
 )
+
 B distribution for 19-clue puzzles [0 ... , total] = (0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0)
 B distribution for 20-clue puzzles [0 ... , total] = (1 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2)
 B distribution for 21-clue puzzles [0 ... , total] = (74 35 26 20 9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 164)
@@ -471,4 +551,187 @@ real unbiased distribution: (29.17 8.44 12.61 22.26 21.44 4.743 1.048 0.23 0.044
 compare to W:
 controlled-bias distribution: (35.08 9.82 13.05 20.03 17.37 3.56 0.79 0.21 0.056 0.015 0.0045 0.00125 0.00035 0.00012 0.0000675 0.000017 0.000017 0.0 0.0 0.0 0.0 100.0)
 real unbiased distribution: (29.17 8.44 12.61 22.26 21.39 4.67 1.07 0.29 0.073 0.0203 0.0055 0.0015 0.00037 0.000086 0.000072 0.000063 0.0000032 0.0 0.0 0.0 0.0 100.0)
+
 The distributions are the same at the first 5 levels (i.e. upto W/B = 4). As expected, they diverge all the more as W,B increase (the larger B, the more chances of having W > B). However, the differences remain small.
+
+
+
+;;; unbiased distribution of the difference difference W-B:
+
+(diff-X-Y-unbiased-distribution-19-32
+    B
+    W
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-B-ratings.txt")
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-W-ratings.txt")
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-nb-clues.txt")
+    5926343
+)
+distribution of W - B for 19-clue puzzles [0 ... , total] = (0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0)
+distribution of W - B for 20-clue puzzles [0 ... , total] = (2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2)
+distribution of W - B for 21-clue puzzles [0 ... , total] = (164 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 164)
+distribution of W - B for 22-clue puzzles [0 ... , total] = (6644 6 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 6651)
+distribution of W - B for 23-clue puzzles [0 ... , total] = (109956 136 11 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 110103)
+distribution of W - B for 24-clue puzzles [0 ... , total] = (703052 981 52 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 704089)
+distribution of W - B for 25-clue puzzles [0 ... , total] = (1810980 3276 151 5 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1814413)
+distribution of W - B for 26-clue puzzles [0 ... , total] = (1997047 5081 204 15 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2002349)
+distribution of W - B for 27-clue puzzles [0 ... , total] = (1003911 3640 142 6 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1007700)
+distribution of W - B for 28-clue puzzles [0 ... , total] = (245993 1209 52 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 247259)
+distribution of W - B for 29-clue puzzles [0 ... , total] = (31219 220 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 31449)
+distribution of W - B for 30-clue puzzles [0 ... , total] = (2062 24 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2088)
+distribution of W - B for 31-clue puzzles [0 ... , total] = (73 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 74)
+distribution of W - B for 32-clue puzzles [0 ... , total] = (2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2)
+
+distribution of W - B for 19 clue puzzles = (0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0)
+distribution of W - B for 20 clue puzzles = (2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2)
+distribution of W - B for 21 clue puzzles = (164 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 164)
+distribution of W - B for 22 clue puzzles = (6644 6 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 6651)
+distribution of W - B for 23 clue puzzles = (109956 136 11 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 110103)
+distribution of W - B for 24 clue puzzles = (703052 981 52 4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 704089)
+distribution of W - B for 25 clue puzzles = (1810980 3276 151 5 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1814413)
+distribution of W - B for 26 clue puzzles = (1997047 5081 204 15 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2002349)
+distribution of W - B for 27 clue puzzles = (1003911 3640 142 6 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1007700)
+distribution of W - B for 28 clue puzzles = (245993 1209 52 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 247259)
+distribution of W - B for 29 clue puzzles = (31219 220 10 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 31449)
+distribution of W - B for 30 clue puzzles = (2062 24 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2088)
+distribution of W - B for 31 clue puzzles = (73 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 74)
+distribution of W - B for 32 clue puzzles = (2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2)
+global distribution of W - B = (5911105 14574 625 35 3 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 5926343)
+
+Distributions for W - B, expresed as percentages:
+controlled-bias distribution: (99.7428768466489 0.245918941917469 0.0105461327499944 0.000590583433999686 5.06214371999731e-05 1.6873812399991e-05 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 100.0)
+real unbiased distribution: (99.6524832748663 0.332689982187691 0.013958191541921 0.000796818185684179 5.57971874892816e-05 1.59360308809584e-05 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 100.0)
+
+Manually arranged:
+controlled-bias distribution: (99.74 0.2459 0.0105 0.000591 5.062e-05 1.68e-05 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 100.0)
+real unbiased distribution: (99.65 0.333 0.0140 0.000797 5.58e-05 1.59e-05 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 100.0)
+
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;
+;;; 6) Differences between W and gW
+;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(compare-ratings-in-files 
+    W
+    gW
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-W-ratings.txt")
+    (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-gW-ratings.txt")
+    ;1168353
+    ;1529243
+    ;1933900
+    ;3207961
+    ;4481101
+    5926343
+)
+
+12752 differences
+12749 positive differences
+3 negative differences
+
+3 cases with diff = -1 (due to non confluence of g-whips)
+#1072535: W = 5; gW = 6; diff = -1
+#3791115: W = 7; gW = 8; diff = -1
+#4117915: W = 5; gW = 6; diff = -1
+
+
+12114 cases with diff = 1
+635 cases with diff = 2
+68 cases with diff = 3
+6 cases with diff = 4
+2 cases with diff = 5
+1 cases with diff = 6
+494 cases with diff > 1 (0.0107 %)
+77 cases with diff > 2 (0.00130 %)
+
+
+
+
+#161579: W = 6; gW = 3; diff = 3
+#227914: W = 9; gW = 6; diff = 3
+#336080: W = 9; gW = 6; diff = 3
+#380159: W = 8; gW = 5; diff = 3
+#497756: W = 6; gW = 3; diff = 3
+#609673: W = 9; gW = 6; diff = 3
+#662158: W = 12; gW = 9; diff = 3
+#669124: W = 8; gW = 5; diff = 3
+#680433: W = 6; gW = 3; diff = 3
+#870108: W = 7; gW = 4; diff = 3
+#884639: W = 8; gW = 5; diff = 3
+#901359: W = 7; gW = 4; diff = 3
+#1073699: W = 10; gW = 7; diff = 3
+#1231503: W = 5; gW = 2; diff = 3
+#1329356: W = 8; gW = 5; diff = 3
+#1331930: W = 7; gW = 4; diff = 3
+#1358064: W = 7; gW = 4; diff = 3
+#1417398: W = 8; gW = 5; diff = 3
+#1429467: W = 10; gW = 7; diff = 3
+#1496063: W = 8; gW = 5; diff = 3
+#1533038: W = 8; gW = 5; diff = 3
+#1577694: W = 6; gW = 3; diff = 3
+#1632089: W = 8; gW = 5; diff = 3
+#1721435: W = 5; gW = 2; diff = 3
+#1748391: W = 9; gW = 6; diff = 3
+#1811085: W = 8; gW = 5; diff = 3
+#1876527: W = 9; gW = 6; diff = 3
+#1901194: W = 7; gW = 4; diff = 3
+#2002656: W = 7; gW = 4; diff = 3
+#2197424: W = 9; gW = 6; diff = 3
+#2383757: W = 5; gW = 2; diff = 3
+#2434060: W = 7; gW = 4; diff = 3
+#2554550: W = 7; gW = 4; diff = 3
+#2572795: W = 9; gW = 6; diff = 3
+#2631235: W = 14; gW = 11; diff = 3
+#2650556: W = 5; gW = 2; diff = 3
+#2691805: W = 7; gW = 4; diff = 3
+#2868631: W = 9; gW = 6; diff = 3
+#2926122: W = 8; gW = 5; diff = 3
+#2980891: W = 9; gW = 6; diff = 3
+#3047406: W = 6; gW = 3; diff = 3
+#3219558: W = 7; gW = 4; diff = 3
+#3309675: W = 13; gW = 10; diff = 3
+#3333259: W = 7; gW = 4; diff = 3
+#3765688: W = 5; gW = 2; diff = 3
+#3792400: W = 12; gW = 9; diff = 3
+#3802790: W = 6; gW = 3; diff = 3
+#3908919: W = 9; gW = 6; diff = 3
+#4009335: W = 8; gW = 5; diff = 3
+#4024252: W = 6; gW = 3; diff = 3
+#4054958: W = 10; gW = 7; diff = 3
+#4132807: W = 7; gW = 4; diff = 3
+#4173239: W = 6; gW = 3; diff = 3
+#4273704: W = 5; gW = 2; diff = 3
+#4309458: W = 8; gW = 5; diff = 3
+#4432398: W = 8; gW = 5; diff = 3
+#4559061: W = 8; gW = 5; diff = 3
+#4566963: W = 12; gW = 9; diff = 3
+#4688246: W = 6; gW = 3; diff = 3
+#4849850: W = 6; gW = 3; diff = 3
+#4921649: W = 6; gW = 3; diff = 3
+#4931086: W = 7; gW = 4; diff = 3
+#4978564: W = 9; gW = 6; diff = 3
+#5139400: W = 6; gW = 3; diff = 3
+#5325369: W = 8; gW = 5; diff = 3
+#5453529: W = 10; gW = 7; diff = 3
+#5750465: W = 13; gW = 10; diff = 3
+#5832926: W = 7; gW = 4; diff = 3
+
+
+#1095754: W = 12; gW = 8; diff = 4
+#2678196: W = 6; gW = 2; diff = 4
+#3067241: W = 7; gW = 3; diff = 4
+#3227167: W = 16; gW = 12; diff = 4
+#5380641: W = 10; gW = 6; diff = 4
+#5406452: W = 9; gW = 5; diff = 4
+
+#2862: W = 7; gW = 2; diff = 5
+#903492: W = 8; gW = 3; diff = 5
+
+#421802: W = 13; gW = 7; diff = 6
+
+
+
+
