@@ -115,8 +115,9 @@ Each folder with name \<xxx\> contains various files:
 
 * an \<xxx\>-SER.txt file, which contains the corresponding SER ratings;
 
-* an \<xxx\>-FPGXnoU-ratings.txt file, which contains the corresponding FGPX ratings with rules for uniqueness disabled. (FPGX is a faster version of SER, with some problems of isomorphism-dependency corrected and with rules for uniqueness de-activated. It is now included in the PROGRAMS folder, where more details about it can be found in the local README.md file.).<br><br>
+* an \<xxx\>-FPGXnoU-ratings.txt file, which contains the corresponding FGPX ratings with rules for uniqueness disabled. (FPGX is a faster version of SER, with some problems of isomorphism-dependency corrected and with rules for uniqueness de-activated. It is now included in the PROGRAMS folder, where more details about it can be found in the local README.md file.).<br>
 
+Moreover, each of the first 10 folders contains a \<xxx\>-gB-ratings.txt file for the corresponding gB-ratings.<br><br>
 
 
 
@@ -169,8 +170,8 @@ It contains:
 * results of their execution;
 * comments on the results.<br>
 
-It is the most up-to-date version of these results, with all the calculations done on the whole collection of 5,926,343 controlled-bias puzzles.<br>
-Notice however that, in addition to the results here, [CSP-Rules-Examples] has a cbg-000 folder in its Sudoku examples folder where more ratings are computed and compared (e.g. S+W, gW, W+uniqueness...). Considering the computation times all these ratings required, this was done for only a small part (the first 21,375) of the full controlled-bias collection (and  this was enough for the additional conclusions drawn for them).<br><br><br><br>
+It is the most up-to-date version of these results, with all the calculations done on the whole collection of 5,926,343 controlled-bias puzzles (except the gB ratings, that are restricted to the first 10 "small" collections).<br>
+Notice however that, in addition to the results here, [CSP-Rules-Examples] has a cbg-000 folder in its Sudoku examples folder where more ratings are computed and compared (e.g. S+W, S+gW, W+uniqueness...). Considering the computation times all these ratings required, this was done for only a small part (the first 21,375) of the full controlled-bias collection (and  this was enough for the additional conclusions drawn for them).<br><br><br><br>
 
 
 
