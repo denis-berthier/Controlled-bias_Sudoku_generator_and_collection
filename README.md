@@ -1,7 +1,7 @@
 # Controlled-bias_Sudoku_generator_and_collection
  
 ## 
-## A large collection (~6M) of minimal Sudoku puzzles generated with a controlled-bias generator, intended to allow the easy computation of unbiased statistics + associated results.</b><br><br><br>
+## A large collection (~6M) of minimal Sudoku puzzles generated with a controlled-bias generator, intended to allow the easy computation of unbiased statistics + associated results about ratings, correlation and distributions.</b><br><br><br>
 
 
 
@@ -31,7 +31,7 @@ This repository consists of four main folders (PROGRAMS, SMALL-CB-COLLECTIONS, G
 
 You don't need to know how to use the programs or to re-run them in order to use the provided controlled-bias collections.<br>
 These collections can be used independently of the programs, which is fortunate because generating controlled-bias collections is much slower than bottom-up or top-down ones.<br>
-The controlled-bias collections provided here are so large that they should be largely enough for the computation of almost any unbiased statitistcs with very high precision.<br><br><br><br>
+The controlled-bias collections provided here are so large that they should be enough for the computation of almost any unbiased statitistcs with very high precision.<br><br><br><br>
 
 
 
@@ -117,7 +117,7 @@ Each folder with name \<xxx\> contains various files:
 
 * an \<xxx\>-FPGXnoU-ratings.txt file, which contains the corresponding FGPX ratings with rules for uniqueness disabled. (FPGX is a faster version of SER, with some problems of isomorphism-dependency corrected and with rules for uniqueness de-activated. It is now included in the PROGRAMS folder, where more details about it can be found in the local README.md file.).<br>
 
-Moreover, each of the first 10 folders contains a \<xxx\>-gB-ratings.txt file for the corresponding gB-ratings.<br><br>
+Moreover, each of the first 50 folders contains a \<xxx\>-gB-ratings.txt file for the corresponding gB-ratings.<br><br>
 
 
 
@@ -133,6 +133,7 @@ As for the tools used for the calculations: <br>
 
 * All the calculations for nb-clues, nb-cands-after-BRT, nb-cands-after-W1, W-ratings and gW-ratings were done with the current version of SudoRules-V20.1 (the Sudoku part of [CSP-Rules]) as of this writing (2023, Nov. 24).<br>
 * All the calculations for the B-ratings were done with the current version of [SHC] as of this writing.<br>
+* All the calculations for the gB-ratings were done with a non-published version of [SHC] (slower than the current one that doesn't have g-candidates).<br>
 * All the calculations for the FPGX-noU ratings were done with [FPGX], a slightly faster variant of SER, with some of the isomorphism-dependency problems of SER solved, including modifications by "1to9only", "iksudoku" and "creint").<br><br><br><br>
 
 
@@ -143,7 +144,7 @@ Whereas the previous release of this project had global files for the W ratings,
 More precisely, for each file type \<ttt\> in any of the SMALL-CB-COLLECTIONS sub-folders, the GLOBAL-CB-RESULTS folder contains an assemble-\<ttt\>.clp file (e.g. "assemble-puzzles.txt", "assemble-nb-clues.txt", "assemble-W-ratings.txt"...), which includes:<br>
 * a Unix script for generating the corresponding global file,  <br>
 * a CLIPS function for generating the Unix script.<br>
-The UNix scripts must be run from the "GLOBAL-CB-RESULTS" folder.<br>
+The Unix scripts must be run from the "GLOBAL-CB-RESULTS" folder.<br>
 
 Global files resulting from the above scripts are named all-\<ttt\>.text (e.g. "all-puzzles.txt", "all-nb-clues.txt", "all-W-ratings.txt", "all-gW-ratings.txt"...).<br>
 
@@ -170,7 +171,7 @@ It contains:
 * results of their execution;
 * comments on the results.<br>
 
-It is the most up-to-date version of these results, with all the calculations done on the whole collection of 5,926,343 controlled-bias puzzles (except the gB ratings, that are restricted to the first 10 "small" collections).<br>
+It is the most up-to-date version of these results, with all the calculations done on the whole collection of 5,926,343 controlled-bias puzzles (except the gB ratings, that are restricted to the first 50 "small" collections, i.e. to 1,062,382 puzzles).<br>
 Notice however that, in addition to the results here, [CSP-Rules-Examples] has a cbg-000 folder in its Sudoku examples folder where more ratings are computed and compared (e.g. S+W, S+gW, W+uniqueness...). Considering the computation times all these ratings required, this was done for only a small part (the first 21,375) of the full controlled-bias collection (and  this was enough for the additional conclusions drawn for them).<br><br><br><br>
 
 

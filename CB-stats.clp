@@ -66,6 +66,7 @@
 
 ;;; You now need only to define the CBGC folder:
 (defglobal ?*CBGC* = (str-cat ?*CSP-Rules* "CBGC/"))
+(defglobal ?*CBGC* = (str-cat "/Users/berthier/Documents/Projets/CSP-Rules/Controlled-bias_Sudoku_generator_and_collection" "/"))
 
 
 
@@ -744,6 +745,12 @@ Large differences:
 
 For all the gB values computed by CSP-Rules (i.e. cbg-000), they coincide with the SHC1 ones.
 So, we use SHC1 below.
+The following results are based on the 1,062,382 of the first 50 "small" collections.
+
+
+;;;;;;;;;;;;;;;;;;;;
+;;; 7.1) gW vs gB
+;;;;;;;;;;;;;;;;;;;;
 
 (compare-ratings-in-files
     gW
@@ -755,478 +762,28 @@ So, we use SHC1 below.
     ;127686
     ;148984
     ;191335
-    212416
+    ;212416
+    ;382296
+    1062382
 )
-#9: gW = 5; gB = 4; diff = 1
-#36: gW = 6; gB = 5; diff = 1
-#109: gW = 9; gB = 7; diff = 2
-#990: gW = 6; gB = 5; diff = 1
-#1908: gW = 7; gB = 6; diff = 1
-#2415: gW = 6; gB = 5; diff = 1
-#3526: gW = 5; gB = 4; diff = 1
-#3551: gW = 8; gB = 7; diff = 1
-#4918: gW = 10; gB = 8; diff = 2
-#5005: gW = 6; gB = 5; diff = 1
-#5236: gW = 6; gB = 5; diff = 1
-#5536: gW = 6; gB = 5; diff = 1
-#6009: gW = 6; gB = 5; diff = 1
-#6419: gW = 6; gB = 5; diff = 1
-#6926: gW = 8; gB = 7; diff = 1
-#7354: gW = 6; gB = 5; diff = 1
-#7625: gW = 7; gB = 6; diff = 1
-#7656: gW = 7; gB = 6; diff = 1
-#7957: gW = 5; gB = 4; diff = 1
-#8422: gW = 7; gB = 6; diff = 1
-#9095: gW = 5; gB = 4; diff = 1
-#9663: gW = 9; gB = 8; diff = 1
-#10296: gW = 7; gB = 6; diff = 1
-#10426: gW = 7; gB = 6; diff = 1
-#10580: gW = 7; gB = 6; diff = 1
-#11521: gW = 6; gB = 5; diff = 1
-#12896: gW = 6; gB = 5; diff = 1
-#13269: gW = 9; gB = 8; diff = 1
-#13841: gW = 8; gB = 7; diff = 1
-#14090: gW = 5; gB = 4; diff = 1
-#14180: gW = 7; gB = 6; diff = 1
-#14434: gW = 7; gB = 6; diff = 1
-#14638: gW = 8; gB = 7; diff = 1
-#15001: gW = 6; gB = 5; diff = 1
-#15385: gW = 5; gB = 4; diff = 1
-#16325: gW = 6; gB = 5; diff = 1
-#16410: gW = 7; gB = 6; diff = 1
-#16579: gW = 8; gB = 7; diff = 1
-#16845: gW = 11; gB = 10; diff = 1
-#17106: gW = 6; gB = 5; diff = 1
-#18723: gW = 6; gB = 5; diff = 1
-#19600: gW = 6; gB = 5; diff = 1
-#19909: gW = 8; gB = 7; diff = 1
-#20108: gW = 8; gB = 7; diff = 1
-#20528: gW = 6; gB = 5; diff = 1
-#21053: gW = 6; gB = 5; diff = 1
-#21158: gW = 7; gB = 6; diff = 1
-#21282: gW = 5; gB = 4; diff = 1
-#21902: gW = 7; gB = 6; diff = 1
-#22105: gW = 7; gB = 6; diff = 1
-#22202: gW = 7; gB = 6; diff = 1
-#22550: gW = 9; gB = 8; diff = 1
-#25128: gW = 9; gB = 7; diff = 2
-#25260: gW = 5; gB = 4; diff = 1
-#25457: gW = 7; gB = 6; diff = 1
-#25790: gW = 8; gB = 7; diff = 1
-#25952: gW = 7; gB = 6; diff = 1
-#26257: gW = 5; gB = 4; diff = 1
-#26690: gW = 5; gB = 4; diff = 1
-#27503: gW = 5; gB = 4; diff = 1
-#27978: gW = 6; gB = 5; diff = 1
-#28222: gW = 7; gB = 6; diff = 1
-#28347: gW = 8; gB = 7; diff = 1
-#28402: gW = 8; gB = 7; diff = 1
-#28737: gW = 6; gB = 5; diff = 1
-#29165: gW = 6; gB = 5; diff = 1
-#29666: gW = 5; gB = 4; diff = 1
-#30600: gW = 6; gB = 5; diff = 1
-#30817: gW = 8; gB = 7; diff = 1
-#31597: gW = 5; gB = 4; diff = 1
-#32039: gW = 6; gB = 5; diff = 1
-#32343: gW = 7; gB = 6; diff = 1
-#32481: gW = 6; gB = 5; diff = 1
-#32676: gW = 7; gB = 6; diff = 1
-#33259: gW = 6; gB = 5; diff = 1
-#33261: gW = 8; gB = 7; diff = 1
-#33338: gW = 6; gB = 5; diff = 1
-#34064: gW = 7; gB = 6; diff = 1
-#35569: gW = 7; gB = 6; diff = 1
-#35755: gW = 6; gB = 5; diff = 1
-#38411: gW = 6; gB = 5; diff = 1
-#39088: gW = 7; gB = 6; diff = 1
-#40182: gW = 6; gB = 5; diff = 1
-#40926: gW = 7; gB = 6; diff = 1
-#41682: gW = 6; gB = 5; diff = 1
-#41889: gW = 6; gB = 5; diff = 1
-#42838: gW = 9; gB = 8; diff = 1
-#43740: gW = 7; gB = 6; diff = 1
-#43799: gW = 5; gB = 4; diff = 1
-#43894: gW = 7; gB = 6; diff = 1
-#43963: gW = 5; gB = 4; diff = 1
-#44122: gW = 5; gB = 4; diff = 1
-#44715: gW = 6; gB = 5; diff = 1
-#44866: gW = 7; gB = 6; diff = 1
-#45027: gW = 5; gB = 4; diff = 1
-#45934: gW = 7; gB = 6; diff = 1
-#46306: gW = 6; gB = 5; diff = 1
-#46532: gW = 6; gB = 5; diff = 1
-#46732: gW = 6; gB = 5; diff = 1
-#47328: gW = 7; gB = 6; diff = 1
-#47672: gW = 6; gB = 5; diff = 1
-#48106: gW = 7; gB = 6; diff = 1
-#48954: gW = 6; gB = 5; diff = 1
-#48976: gW = 6; gB = 5; diff = 1
-#49282: gW = 8; gB = 7; diff = 1
-#49320: gW = 7; gB = 6; diff = 1
-#49979: gW = 6; gB = 5; diff = 1
-#50470: gW = 5; gB = 4; diff = 1
-#50593: gW = 5; gB = 4; diff = 1
-#51314: gW = 6; gB = 5; diff = 1
-#51594: gW = 5; gB = 4; diff = 1
-#51598: gW = 8; gB = 7; diff = 1
-#51791: gW = 6; gB = 5; diff = 1
-#53367: gW = 6; gB = 5; diff = 1
-#53788: gW = 6; gB = 5; diff = 1
-#53950: gW = 6; gB = 5; diff = 1
-#54200: gW = 7; gB = 6; diff = 1
-#54409: gW = 6; gB = 5; diff = 1
-#54433: gW = 6; gB = 5; diff = 1
-#54818: gW = 6; gB = 5; diff = 1
-#55601: gW = 5; gB = 4; diff = 1
-#55820: gW = 6; gB = 5; diff = 1
-#56385: gW = 6; gB = 5; diff = 1
-#56765: gW = 6; gB = 5; diff = 1
-#56784: gW = 7; gB = 6; diff = 1
-#56863: gW = 6; gB = 5; diff = 1
-#57227: gW = 8; gB = 6; diff = 2
-#57488: gW = 6; gB = 5; diff = 1
-#57539: gW = 7; gB = 6; diff = 1
-#57591: gW = 7; gB = 6; diff = 1
-#57698: gW = 6; gB = 5; diff = 1
-#58132: gW = 8; gB = 7; diff = 1
-#58310: gW = 7; gB = 6; diff = 1
-#58390: gW = 7; gB = 6; diff = 1
-#58399: gW = 6; gB = 5; diff = 1
-#58583: gW = 6; gB = 5; diff = 1
-#58785: gW = 6; gB = 5; diff = 1
-#59258: gW = 6; gB = 5; diff = 1
-#59352: gW = 6; gB = 5; diff = 1
-#59367: gW = 5; gB = 4; diff = 1
-#59922: gW = 6; gB = 5; diff = 1
-#60228: gW = 6; gB = 5; diff = 1
-#60467: gW = 6; gB = 5; diff = 1
-#60493: gW = 6; gB = 5; diff = 1
-#61542: gW = 8; gB = 7; diff = 1
-#61827: gW = 7; gB = 6; diff = 1
-#61871: gW = 8; gB = 7; diff = 1
-#61902: gW = 5; gB = 4; diff = 1
-#62994: gW = 5; gB = 4; diff = 1
-#63280: gW = 6; gB = 5; diff = 1
-#63438: gW = 8; gB = 7; diff = 1
-#63634: gW = 6; gB = 5; diff = 1
-#63820: gW = 7; gB = 6; diff = 1
-#65261: gW = 6; gB = 5; diff = 1
-#66234: gW = 7; gB = 6; diff = 1
-#67110: gW = 7; gB = 6; diff = 1
-#67722: gW = 7; gB = 6; diff = 1
-#68122: gW = 7; gB = 6; diff = 1
-#69670: gW = 6; gB = 5; diff = 1
-#70145: gW = 5; gB = 4; diff = 1
-#70233: gW = 8; gB = 7; diff = 1
-#71107: gW = 7; gB = 6; diff = 1
-#71184: gW = 6; gB = 5; diff = 1
-#72336: gW = 7; gB = 6; diff = 1
-#72840: gW = 6; gB = 5; diff = 1
-#73078: gW = 7; gB = 6; diff = 1
-#73957: gW = 6; gB = 5; diff = 1
-#74018: gW = 6; gB = 5; diff = 1
-#74952: gW = 7; gB = 6; diff = 1
-#75278: gW = 6; gB = 5; diff = 1
-#75285: gW = 6; gB = 5; diff = 1
-#75317: gW = 6; gB = 5; diff = 1
-#75388: gW = 6; gB = 5; diff = 1
-#76276: gW = 6; gB = 5; diff = 1
-#76470: gW = 6; gB = 5; diff = 1
-#76711: gW = 5; gB = 4; diff = 1
-#76823: gW = 6; gB = 5; diff = 1
-#76968: gW = 7; gB = 5; diff = 2
-#77315: gW = 9; gB = 8; diff = 1
-#78132: gW = 5; gB = 4; diff = 1
-#78213: gW = 6; gB = 5; diff = 1
-#78233: gW = 7; gB = 6; diff = 1
-#79213: gW = 8; gB = 7; diff = 1
-#79246: gW = 5; gB = 4; diff = 1
-#79473: gW = 6; gB = 5; diff = 1
-#79794: gW = 5; gB = 4; diff = 1
-#79911: gW = 8; gB = 7; diff = 1
-#80443: gW = 7; gB = 6; diff = 1
-#80831: gW = 6; gB = 5; diff = 1
-#80860: gW = 6; gB = 5; diff = 1
-#83009: gW = 6; gB = 5; diff = 1
-#83373: gW = 7; gB = 6; diff = 1
-#84290: gW = 6; gB = 5; diff = 1
-#85176: gW = 7; gB = 6; diff = 1
-#85177: gW = 5; gB = 4; diff = 1
-#85321: gW = 5; gB = 4; diff = 1
-#85435: gW = 7; gB = 6; diff = 1
-#86367: gW = 6; gB = 5; diff = 1
-#86635: gW = 9; gB = 8; diff = 1
-#86937: gW = 5; gB = 4; diff = 1
-#87386: gW = 7; gB = 6; diff = 1
-#87593: gW = 5; gB = 4; diff = 1
-#88373: gW = 5; gB = 4; diff = 1
-#88599: gW = 6; gB = 5; diff = 1
-#89484: gW = 6; gB = 5; diff = 1
-#89585: gW = 6; gB = 5; diff = 1
-#89693: gW = 7; gB = 6; diff = 1
-#89796: gW = 6; gB = 5; diff = 1
-#90185: gW = 6; gB = 5; diff = 1
-#91205: gW = 6; gB = 5; diff = 1
-#91376: gW = 7; gB = 6; diff = 1
-#92454: gW = 6; gB = 5; diff = 1
-#93501: gW = 6; gB = 5; diff = 1
-#93639: gW = 6; gB = 5; diff = 1
-#94314: gW = 11; gB = 10; diff = 1
-#94517: gW = 9; gB = 8; diff = 1
-#94918: gW = 7; gB = 6; diff = 1
-#94926: gW = 6; gB = 5; diff = 1
-#95304: gW = 6; gB = 5; diff = 1
-#95459: gW = 8; gB = 7; diff = 1
-#96071: gW = 8; gB = 7; diff = 1
-#96140: gW = 5; gB = 4; diff = 1
-#96192: gW = 7; gB = 5; diff = 2
-#96227: gW = 6; gB = 5; diff = 1
-#98475: gW = 7; gB = 6; diff = 1
-#98872: gW = 7; gB = 6; diff = 1
-#99196: gW = 6; gB = 5; diff = 1
-#99910: gW = 6; gB = 5; diff = 1
-#100652: gW = 6; gB = 5; diff = 1
-#101075: gW = 8; gB = 7; diff = 1
-#101869: gW = 7; gB = 6; diff = 1
-#101872: gW = 7; gB = 6; diff = 1
-#101974: gW = 6; gB = 5; diff = 1
-#102090: gW = 5; gB = 4; diff = 1
-#102256: gW = 5; gB = 4; diff = 1
-#102873: gW = 6; gB = 5; diff = 1
-#103021: gW = 7; gB = 6; diff = 1
-#103167: gW = 6; gB = 5; diff = 1
-#103489: gW = 5; gB = 4; diff = 1
-#103705: gW = 7; gB = 6; diff = 1
-#104173: gW = 5; gB = 4; diff = 1
-#104472: gW = 7; gB = 5; diff = 2
-#105222: gW = 7; gB = 6; diff = 1
-#105253: gW = 8; gB = 7; diff = 1
-#106565: gW = 7; gB = 6; diff = 1
-#107529: gW = 8; gB = 7; diff = 1
-#107591: gW = 6; gB = 5; diff = 1
-#107980: gW = 6; gB = 5; diff = 1
-#108249: gW = 6; gB = 5; diff = 1
-#108465: gW = 6; gB = 5; diff = 1
-#108611: gW = 7; gB = 6; diff = 1
-#108849: gW = 6; gB = 5; diff = 1
-#108991: gW = 6; gB = 5; diff = 1
-#109749: gW = 7; gB = 6; diff = 1
-#109926: gW = 5; gB = 4; diff = 1
-#110211: gW = 5; gB = 4; diff = 1
-#110514: gW = 7; gB = 6; diff = 1
-#111053: gW = 7; gB = 6; diff = 1
-#111353: gW = 6; gB = 5; diff = 1
-#111730: gW = 6; gB = 5; diff = 1
-#111822: gW = 8; gB = 7; diff = 1
-#112092: gW = 6; gB = 5; diff = 1
-#112778: gW = 8; gB = 7; diff = 1
-#112820: gW = 7; gB = 6; diff = 1
-#113070: gW = 6; gB = 5; diff = 1
-#113842: gW = 9; gB = 8; diff = 1
-#116137: gW = 6; gB = 5; diff = 1
-#118011: gW = 6; gB = 5; diff = 1
-#118145: gW = 6; gB = 5; diff = 1
-#118545: gW = 6; gB = 5; diff = 1
-#119255: gW = 6; gB = 5; diff = 1
-#120005: gW = 7; gB = 6; diff = 1
-#120931: gW = 6; gB = 5; diff = 1
-#121519: gW = 7; gB = 6; diff = 1
-#122334: gW = 5; gB = 4; diff = 1
-#122850: gW = 9; gB = 8; diff = 1
-#123330: gW = 7; gB = 6; diff = 1
-#123464: gW = 6; gB = 5; diff = 1
-#123657: gW = 8; gB = 6; diff = 2
-#124276: gW = 7; gB = 6; diff = 1
-#126227: gW = 7; gB = 6; diff = 1
-#126432: gW = 7; gB = 6; diff = 1
-#128339: gW = 7; gB = 6; diff = 1
-#128586: gW = 8; gB = 7; diff = 1
-#128965: gW = 7; gB = 6; diff = 1
-#128972: gW = 7; gB = 6; diff = 1
-#129144: gW = 6; gB = 5; diff = 1
-#130629: gW = 7; gB = 6; diff = 1
-#131062: gW = 6; gB = 5; diff = 1
-#131539: gW = 7; gB = 6; diff = 1
-#131568: gW = 6; gB = 5; diff = 1
-#131779: gW = 8; gB = 7; diff = 1
-#131970: gW = 8; gB = 7; diff = 1
-#132135: gW = 7; gB = 6; diff = 1
-#133012: gW = 6; gB = 5; diff = 1
-#133047: gW = 8; gB = 7; diff = 1
-#133150: gW = 6; gB = 5; diff = 1
-#133584: gW = 6; gB = 5; diff = 1
-#134378: gW = 6; gB = 5; diff = 1
-#135780: gW = 8; gB = 6; diff = 2
-#135910: gW = 7; gB = 6; diff = 1
-#136084: gW = 9; gB = 8; diff = 1
-#136108: gW = 8; gB = 7; diff = 1
-#136557: gW = 6; gB = 5; diff = 1
-#136697: gW = 7; gB = 6; diff = 1
-#136700: gW = 6; gB = 5; diff = 1
-#137041: gW = 7; gB = 6; diff = 1
-#137776: gW = 7; gB = 6; diff = 1
-#138308: gW = 6; gB = 5; diff = 1
-#139303: gW = 7; gB = 6; diff = 1
-#139504: gW = 7; gB = 6; diff = 1
-#140165: gW = 6; gB = 5; diff = 1
-#140433: gW = 13; gB = 12; diff = 1
-#140519: gW = 9; gB = 8; diff = 1
-#140698: gW = 7; gB = 6; diff = 1
-#141330: gW = 6; gB = 5; diff = 1
-#141663: gW = 6; gB = 5; diff = 1
-#142004: gW = 7; gB = 6; diff = 1
-#142168: gW = 6; gB = 5; diff = 1
-#142183: gW = 7; gB = 6; diff = 1
-#142208: gW = 6; gB = 5; diff = 1
-#143115: gW = 7; gB = 6; diff = 1
-#143295: gW = 7; gB = 6; diff = 1
-#143491: gW = 7; gB = 6; diff = 1
-#143512: gW = 8; gB = 7; diff = 1
-#143567: gW = 8; gB = 7; diff = 1
-#144084: gW = 6; gB = 5; diff = 1
-#144512: gW = 9; gB = 8; diff = 1
-#144890: gW = 8; gB = 7; diff = 1
-#145254: gW = 8; gB = 7; diff = 1
-#145327: gW = 5; gB = 4; diff = 1
-#145813: gW = 6; gB = 5; diff = 1
-#146477: gW = 6; gB = 5; diff = 1
-#146808: gW = 7; gB = 6; diff = 1
-#148119: gW = 6; gB = 5; diff = 1
-#148156: gW = 6; gB = 5; diff = 1
-#149157: gW = 8; gB = 7; diff = 1
-#150148: gW = 5; gB = 4; diff = 1
-#150998: gW = 7; gB = 6; diff = 1
-#152029: gW = 6; gB = 5; diff = 1
-#152124: gW = 8; gB = 7; diff = 1
-#152882: gW = 7; gB = 6; diff = 1
-#153415: gW = 6; gB = 5; diff = 1
-#153867: gW = 7; gB = 6; diff = 1
-#154232: gW = 7; gB = 6; diff = 1
-#156608: gW = 7; gB = 6; diff = 1
-#157128: gW = 6; gB = 5; diff = 1
-#157328: gW = 6; gB = 5; diff = 1
-#157492: gW = 10; gB = 9; diff = 1
-#157568: gW = 7; gB = 6; diff = 1
-#157867: gW = 5; gB = 4; diff = 1
-#159175: gW = 7; gB = 6; diff = 1
-#159403: gW = 5; gB = 4; diff = 1
-#159954: gW = 6; gB = 5; diff = 1
-#160205: gW = 8; gB = 7; diff = 1
-#161497: gW = 6; gB = 5; diff = 1
-#161923: gW = 6; gB = 5; diff = 1
-#162184: gW = 9; gB = 8; diff = 1
-#162442: gW = 7; gB = 6; diff = 1
-#163056: gW = 8; gB = 7; diff = 1
-#163828: gW = 6; gB = 5; diff = 1
-#164197: gW = 7; gB = 6; diff = 1
-#164221: gW = 6; gB = 5; diff = 1
-#165648: gW = 6; gB = 5; diff = 1
-#165856: gW = 5; gB = 4; diff = 1
-#166287: gW = 6; gB = 5; diff = 1
-#166776: gW = 6; gB = 5; diff = 1
-#167143: gW = 8; gB = 7; diff = 1
-#167841: gW = 6; gB = 5; diff = 1
-#168326: gW = 5; gB = 4; diff = 1
-#168679: gW = 8; gB = 7; diff = 1
-#168686: gW = 7; gB = 6; diff = 1
-#169092: gW = 8; gB = 6; diff = 2
-#169362: gW = 6; gB = 5; diff = 1
-#169436: gW = 7; gB = 6; diff = 1
-#169448: gW = 6; gB = 5; diff = 1
-#170335: gW = 8; gB = 7; diff = 1
-#171720: gW = 8; gB = 7; diff = 1
-#171865: gW = 6; gB = 5; diff = 1
-#171869: gW = 5; gB = 4; diff = 1
-#172495: gW = 7; gB = 6; diff = 1
-#172600: gW = 7; gB = 6; diff = 1
-#172668: gW = 6; gB = 5; diff = 1
-#172940: gW = 6; gB = 5; diff = 1
-#172972: gW = 10; gB = 9; diff = 1
-#174373: gW = 6; gB = 5; diff = 1
-#174977: gW = 5; gB = 4; diff = 1
-#175032: gW = 7; gB = 6; diff = 1
-#175614: gW = 6; gB = 5; diff = 1
-#175679: gW = 7; gB = 6; diff = 1
-#176792: gW = 8; gB = 7; diff = 1
-#176798: gW = 7; gB = 6; diff = 1
-#177300: gW = 6; gB = 5; diff = 1
-#178494: gW = 5; gB = 4; diff = 1
-#179117: gW = 8; gB = 7; diff = 1
-#180270: gW = 5; gB = 4; diff = 1
-#181354: gW = 6; gB = 5; diff = 1
-#181949: gW = 8; gB = 7; diff = 1
-#181953: gW = 6; gB = 5; diff = 1
-#182179: gW = 5; gB = 4; diff = 1
-#182570: gW = 6; gB = 5; diff = 1
-#184111: gW = 7; gB = 6; diff = 1
-#184614: gW = 5; gB = 4; diff = 1
-#185228: gW = 6; gB = 5; diff = 1
-#185383: gW = 7; gB = 6; diff = 1
-#185566: gW = 6; gB = 5; diff = 1
-#186037: gW = 6; gB = 5; diff = 1
-#186492: gW = 6; gB = 5; diff = 1
-#186528: gW = 6; gB = 5; diff = 1
-#187304: gW = 8; gB = 6; diff = 2
-#189397: gW = 6; gB = 5; diff = 1
-#189571: gW = 6; gB = 5; diff = 1
-#191522: gW = 5; gB = 4; diff = 1
-#191596: gW = 7; gB = 6; diff = 1
-#191617: gW = 7; gB = 6; diff = 1
-#191907: gW = 9; gB = 8; diff = 1
-#192193: gW = 7; gB = 6; diff = 1
-#192292: gW = 7; gB = 6; diff = 1
-#193366: gW = 10; gB = 8; diff = 2
-#193550: gW = 8; gB = 7; diff = 1
-#193720: gW = 6; gB = 5; diff = 1
-#194369: gW = 5; gB = 4; diff = 1
-#194857: gW = 8; gB = 7; diff = 1
-#194859: gW = 6; gB = 5; diff = 1
-#195423: gW = 8; gB = 7; diff = 1
-#195792: gW = 6; gB = 5; diff = 1
-#196597: gW = 7; gB = 6; diff = 1
-#197032: gW = 6; gB = 5; diff = 1
-#197314: gW = 5; gB = 4; diff = 1
-#197640: gW = 6; gB = 5; diff = 1
-#197689: gW = 6; gB = 5; diff = 1
-#198660: gW = 8; gB = 7; diff = 1
-#198729: gW = 7; gB = 6; diff = 1
-#199282: gW = 8; gB = 7; diff = 1
-#201664: gW = 5; gB = 4; diff = 1
-#201999: gW = 6; gB = 5; diff = 1
-#202076: gW = 7; gB = 6; diff = 1
-#202489: gW = 7; gB = 6; diff = 1
-#202995: gW = 6; gB = 5; diff = 1
-#204088: gW = 6; gB = 5; diff = 1
-#204182: gW = 5; gB = 4; diff = 1
-#204428: gW = 7; gB = 6; diff = 1
-#205144: gW = 6; gB = 5; diff = 1
-#205270: gW = 5; gB = 4; diff = 1
-#205912: gW = 7; gB = 5; diff = 2
-#205938: gW = 8; gB = 7; diff = 1
-#206254: gW = 7; gB = 6; diff = 1
-#206603: gW = 6; gB = 5; diff = 1
-#207329: gW = 7; gB = 6; diff = 1
-#207692: gW = 7; gB = 6; diff = 1
-#207784: gW = 6; gB = 5; diff = 1
-#207890: gW = 5; gB = 4; diff = 1
-#207959: gW = 6; gB = 5; diff = 1
-#208164: gW = 7; gB = 6; diff = 1
-#209194: gW = 9; gB = 7; diff = 2
-#209864: gW = 6; gB = 5; diff = 1
-#209871: gW = 6; gB = 5; diff = 1
-#209961: gW = 6; gB = 5; diff = 1
-#210285: gW = 6; gB = 5; diff = 1
-#210504: gW = 6; gB = 5; diff = 1
-#211004: gW = 5; gB = 4; diff = 1
-#211863: gW = 6; gB = 5; diff = 1
-#212094: gW = 6; gB = 5; diff = 1
 
-463 differences  (0.218 %)
-463 positive differences
+2189 differences (i.e. 0.206 %)
+2189 positive differences
 0 negative differences
-14 cases with diff = 2
-nop case with diff > 2
 
+70 cases with diff = 2
+2 cases with diff = 3
+no case with diff > 3
+
+Large differences:
+#247111: gW = 12; gB = 9; diff = 3
+#861410: gW = 9; gB = 6; diff = 3
+
+
+
+;;;;;;;;;;;;;;;;;;;;
+;;; 7.2) B vs gB
+;;;;;;;;;;;;;;;;;;;;
 
 (compare-ratings-in-files
     B
@@ -1237,381 +794,29 @@ nop case with diff > 2
     ;106573
     ;127686
     ;191335
-    212416
+    ;382296
+    1062382
 )
-#41: B = 5; gB = 4; diff = 1
-#451: B = 5; gB = 4; diff = 1
-#1249: B = 3; gB = 2; diff = 1
-#2524: B = 6; gB = 5; diff = 1
-#2812: B = 4; gB = 3; diff = 1
-#2862: B = 6; gB = 2; diff = 4
-#4918: B = 9; gB = 8; diff = 1
-#5233: B = 5; gB = 4; diff = 1
-#5757: B = 6; gB = 5; diff = 1
-#5931: B = 6; gB = 5; diff = 1
-#6009: B = 6; gB = 5; diff = 1
-#6144: B = 5; gB = 4; diff = 1
-#7625: B = 7; gB = 6; diff = 1
-#7770: B = 5; gB = 4; diff = 1
-#8981: B = 4; gB = 3; diff = 1
-#9595: B = 6; gB = 5; diff = 1
-#9812: B = 3; gB = 2; diff = 1
-#10188: B = 5; gB = 4; diff = 1
-#10426: B = 7; gB = 6; diff = 1
-#12176: B = 7; gB = 6; diff = 1
-#13514: B = 5; gB = 4; diff = 1
-#14800: B = 5; gB = 4; diff = 1
-#15385: B = 5; gB = 4; diff = 1
-#16496: B = 4; gB = 3; diff = 1
-#16630: B = 7; gB = 5; diff = 2
-#17942: B = 4; gB = 3; diff = 1
-#18012: B = 5; gB = 4; diff = 1
-#18495: B = 4; gB = 3; diff = 1
-#19550: B = 8; gB = 7; diff = 1
-#19868: B = 4; gB = 3; diff = 1
-#21138: B = 5; gB = 4; diff = 1
-#21282: B = 5; gB = 4; diff = 1
-#21989: B = 6; gB = 5; diff = 1
-#22026: B = 4; gB = 3; diff = 1
-#22078: B = 6; gB = 5; diff = 1
-#22942: B = 3; gB = 2; diff = 1
-#23084: B = 5; gB = 4; diff = 1
-#24023: B = 3; gB = 2; diff = 1
-#24354: B = 4; gB = 3; diff = 1
-#24996: B = 4; gB = 3; diff = 1
-#25128: B = 8; gB = 7; diff = 1
-#25453: B = 3; gB = 2; diff = 1
-#26077: B = 4; gB = 3; diff = 1
-#26257: B = 5; gB = 4; diff = 1
-#26507: B = 4; gB = 3; diff = 1
-#27201: B = 5; gB = 4; diff = 1
-#28347: B = 8; gB = 7; diff = 1
-#28491: B = 5; gB = 4; diff = 1
-#29107: B = 5; gB = 4; diff = 1
-#29165: B = 6; gB = 5; diff = 1
-#30371: B = 4; gB = 3; diff = 1
-#30704: B = 6; gB = 5; diff = 1
-#31297: B = 5; gB = 4; diff = 1
-#31597: B = 5; gB = 4; diff = 1
-#31797: B = 6; gB = 5; diff = 1
-#31909: B = 5; gB = 4; diff = 1
-#33575: B = 5; gB = 4; diff = 1
-#33907: B = 6; gB = 5; diff = 1
-#34508: B = 3; gB = 2; diff = 1
-#34605: B = 4; gB = 3; diff = 1
-#35080: B = 4; gB = 3; diff = 1
-#35571: B = 5; gB = 4; diff = 1
-#36016: B = 3; gB = 2; diff = 1
-#36968: B = 4; gB = 3; diff = 1
-#38135: B = 7; gB = 6; diff = 1
-#39404: B = 4; gB = 3; diff = 1
-#39612: B = 4; gB = 3; diff = 1
-#40288: B = 5; gB = 4; diff = 1
-#41682: B = 6; gB = 5; diff = 1
-#41889: B = 6; gB = 5; diff = 1
-#43470: B = 3; gB = 2; diff = 1
-#43646: B = 5; gB = 4; diff = 1
-#43828: B = 3; gB = 2; diff = 1
-#44122: B = 5; gB = 4; diff = 1
-#44585: B = 5; gB = 4; diff = 1
-#44757: B = 4; gB = 3; diff = 1
-#45027: B = 5; gB = 4; diff = 1
-#46290: B = 6; gB = 5; diff = 1
-#46512: B = 6; gB = 5; diff = 1
-#46528: B = 7; gB = 6; diff = 1
-#46651: B = 3; gB = 2; diff = 1
-#46926: B = 5; gB = 4; diff = 1
-#47313: B = 5; gB = 4; diff = 1
-#47765: B = 5; gB = 4; diff = 1
-#49507: B = 7; gB = 6; diff = 1
-#51275: B = 4; gB = 3; diff = 1
-#51791: B = 6; gB = 5; diff = 1
-#53950: B = 6; gB = 5; diff = 1
-#54052: B = 6; gB = 5; diff = 1
-#54908: B = 5; gB = 4; diff = 1
-#55804: B = 3; gB = 2; diff = 1
-#56243: B = 3; gB = 2; diff = 1
-#56385: B = 6; gB = 5; diff = 1
-#56564: B = 3; gB = 2; diff = 1
-#56710: B = 4; gB = 3; diff = 1
-#56745: B = 5; gB = 4; diff = 1
-#57591: B = 8; gB = 6; diff = 2
-#58390: B = 7; gB = 6; diff = 1
-#58827: B = 5; gB = 4; diff = 1
-#59367: B = 5; gB = 4; diff = 1
-#60493: B = 6; gB = 5; diff = 1
-#61609: B = 4; gB = 3; diff = 1
-#61827: B = 8; gB = 6; diff = 2
-#61834: B = 6; gB = 4; diff = 2
-#61902: B = 5; gB = 4; diff = 1
-#62737: B = 6; gB = 5; diff = 1
-#63020: B = 5; gB = 4; diff = 1
-#63634: B = 6; gB = 5; diff = 1
-#63828: B = 4; gB = 3; diff = 1
-#64613: B = 3; gB = 2; diff = 1
-#64641: B = 5; gB = 4; diff = 1
-#65722: B = 3; gB = 2; diff = 1
-#65823: B = 6; gB = 5; diff = 1
-#66105: B = 7; gB = 6; diff = 1
-#66234: B = 8; gB = 6; diff = 2
-#66243: B = 3; gB = 2; diff = 1
-#68846: B = 5; gB = 4; diff = 1
-#69808: B = 5; gB = 4; diff = 1
-#70606: B = 6; gB = 5; diff = 1
-#71107: B = 7; gB = 6; diff = 1
-#71550: B = 4; gB = 3; diff = 1
-#72498: B = 3; gB = 2; diff = 1
-#72972: B = 4; gB = 3; diff = 1
-#73250: B = 6; gB = 5; diff = 1
-#73607: B = 4; gB = 3; diff = 1
-#74025: B = 4; gB = 3; diff = 1
-#75211: B = 5; gB = 4; diff = 1
-#75297: B = 7; gB = 6; diff = 1
-#75388: B = 7; gB = 5; diff = 2
-#77383: B = 4; gB = 3; diff = 1
-#77591: B = 3; gB = 2; diff = 1
-#77615: B = 6; gB = 5; diff = 1
-#77703: B = 4; gB = 3; diff = 1
-#78213: B = 6; gB = 5; diff = 1
-#78421: B = 3; gB = 2; diff = 1
-#78554: B = 5; gB = 3; diff = 2
-#78861: B = 5; gB = 4; diff = 1
-#78895: B = 7; gB = 6; diff = 1
-#79833: B = 3; gB = 2; diff = 1
-#80876: B = 4; gB = 3; diff = 1
-#81746: B = 5; gB = 4; diff = 1
-#83174: B = 5; gB = 4; diff = 1
-#84227: B = 5; gB = 4; diff = 1
-#85774: B = 3; gB = 2; diff = 1
-#85835: B = 4; gB = 3; diff = 1
-#86130: B = 3; gB = 2; diff = 1
-#86792: B = 4; gB = 3; diff = 1
-#86867: B = 4; gB = 3; diff = 1
-#86965: B = 6; gB = 5; diff = 1
-#87165: B = 6; gB = 5; diff = 1
-#87671: B = 4; gB = 3; diff = 1
-#88148: B = 5; gB = 4; diff = 1
-#88315: B = 6; gB = 5; diff = 1
-#88576: B = 5; gB = 4; diff = 1
-#89126: B = 3; gB = 2; diff = 1
-#89167: B = 5; gB = 4; diff = 1
-#89995: B = 5; gB = 4; diff = 1
-#90300: B = 3; gB = 2; diff = 1
-#91445: B = 4; gB = 3; diff = 1
-#91714: B = 3; gB = 2; diff = 1
-#91854: B = 4; gB = 3; diff = 1
-#92380: B = 3; gB = 2; diff = 1
-#92632: B = 4; gB = 2; diff = 2
-#93067: B = 5; gB = 4; diff = 1
-#94964: B = 5; gB = 4; diff = 1
-#95018: B = 4; gB = 3; diff = 1
-#95055: B = 3; gB = 2; diff = 1
-#95915: B = 3; gB = 2; diff = 1
-#95976: B = 3; gB = 2; diff = 1
-#97288: B = 4; gB = 3; diff = 1
-#97533: B = 3; gB = 2; diff = 1
-#97742: B = 4; gB = 3; diff = 1
-#100255: B = 4; gB = 3; diff = 1
-#100450: B = 3; gB = 2; diff = 1
-#100736: B = 3; gB = 2; diff = 1
-#101070: B = 8; gB = 7; diff = 1
-#101353: B = 5; gB = 4; diff = 1
-#101774: B = 3; gB = 2; diff = 1
-#102108: B = 5; gB = 4; diff = 1
-#103021: B = 8; gB = 6; diff = 2
-#104246: B = 6; gB = 4; diff = 2
-#104535: B = 7; gB = 6; diff = 1
-#105001: B = 6; gB = 5; diff = 1
-#105849: B = 6; gB = 5; diff = 1
-#106815: B = 5; gB = 4; diff = 1
-#107891: B = 4; gB = 3; diff = 1
-#108023: B = 3; gB = 2; diff = 1
-#108031: B = 3; gB = 2; diff = 1
-#108991: B = 6; gB = 5; diff = 1
-#109749: B = 7; gB = 6; diff = 1
-#110264: B = 4; gB = 3; diff = 1
-#111053: B = 7; gB = 6; diff = 1
-#111352: B = 3; gB = 2; diff = 1
-#111623: B = 3; gB = 2; diff = 1
-#111650: B = 5; gB = 4; diff = 1
-#112287: B = 3; gB = 2; diff = 1
-#112454: B = 5; gB = 4; diff = 1
-#113139: B = 6; gB = 5; diff = 1
-#113374: B = 5; gB = 4; diff = 1
-#114102: B = 6; gB = 5; diff = 1
-#115124: B = 6; gB = 5; diff = 1
-#115288: B = 6; gB = 5; diff = 1
-#115435: B = 7; gB = 6; diff = 1
-#115461: B = 6; gB = 5; diff = 1
-#115564: B = 5; gB = 4; diff = 1
-#116097: B = 3; gB = 2; diff = 1
-#116294: B = 6; gB = 5; diff = 1
-#117839: B = 4; gB = 3; diff = 1
-#117863: B = 3; gB = 2; diff = 1
-#118155: B = 4; gB = 3; diff = 1
-#118492: B = 4; gB = 3; diff = 1
-#118545: B = 6; gB = 5; diff = 1
-#119887: B = 5; gB = 4; diff = 1
-#119960: B = 3; gB = 2; diff = 1
-#121109: B = 3; gB = 2; diff = 1
-#121676: B = 3; gB = 2; diff = 1
-#121864: B = 3; gB = 2; diff = 1
-#122699: B = 5; gB = 4; diff = 1
-#123464: B = 6; gB = 5; diff = 1
-#123657: B = 7; gB = 6; diff = 1
-#125855: B = 3; gB = 2; diff = 1
-#126040: B = 5; gB = 4; diff = 1
-#127406: B = 6; gB = 5; diff = 1
-#128339: B = 7; gB = 6; diff = 1
-#128721: B = 5; gB = 4; diff = 1
-#130969: B = 3; gB = 2; diff = 1
-#131062: B = 6; gB = 5; diff = 1
-#131068: B = 6; gB = 5; diff = 1
-#131828: B = 4; gB = 3; diff = 1
-#131970: B = 8; gB = 7; diff = 1
-#132083: B = 8; gB = 7; diff = 1
-#132642: B = 5; gB = 4; diff = 1
-#132883: B = 3; gB = 2; diff = 1
-#133862: B = 4; gB = 3; diff = 1
-#135979: B = 5; gB = 4; diff = 1
-#136289: B = 4; gB = 3; diff = 1
-#136509: B = 4; gB = 3; diff = 1
-#137025: B = 5; gB = 4; diff = 1
-#137079: B = 4; gB = 3; diff = 1
-#137920: B = 4; gB = 3; diff = 1
-#138970: B = 4; gB = 3; diff = 1
-#139401: B = 6; gB = 5; diff = 1
-#139879: B = 4; gB = 3; diff = 1
-#139895: B = 4; gB = 3; diff = 1
-#140431: B = 6; gB = 5; diff = 1
-#141075: B = 4; gB = 3; diff = 1
-#141765: B = 4; gB = 3; diff = 1
-#142168: B = 6; gB = 5; diff = 1
-#142449: B = 5; gB = 4; diff = 1
-#142714: B = 5; gB = 4; diff = 1
-#142866: B = 5; gB = 4; diff = 1
-#143226: B = 4; gB = 3; diff = 1
-#144721: B = 5; gB = 4; diff = 1
-#145327: B = 5; gB = 4; diff = 1
-#146310: B = 5; gB = 4; diff = 1
-#147293: B = 4; gB = 3; diff = 1
-#147314: B = 5; gB = 4; diff = 1
-#148249: B = 3; gB = 2; diff = 1
-#148757: B = 7; gB = 6; diff = 1
-#150030: B = 5; gB = 4; diff = 1
-#150584: B = 5; gB = 4; diff = 1
-#150613: B = 5; gB = 4; diff = 1
-#150901: B = 5; gB = 4; diff = 1
-#152142: B = 5; gB = 4; diff = 1
-#152233: B = 4; gB = 3; diff = 1
-#152761: B = 4; gB = 3; diff = 1
-#152925: B = 5; gB = 4; diff = 1
-#152969: B = 5; gB = 3; diff = 2
-#153356: B = 6; gB = 5; diff = 1
-#153583: B = 3; gB = 2; diff = 1
-#153588: B = 5; gB = 4; diff = 1
-#154332: B = 4; gB = 3; diff = 1
-#155021: B = 7; gB = 6; diff = 1
-#155736: B = 4; gB = 3; diff = 1
-#159074: B = 3; gB = 2; diff = 1
-#159257: B = 6; gB = 5; diff = 1
-#159653: B = 6; gB = 5; diff = 1
-#160205: B = 8; gB = 7; diff = 1
-#160260: B = 5; gB = 4; diff = 1
-#161183: B = 4; gB = 3; diff = 1
-#161219: B = 5; gB = 4; diff = 1
-#161579: B = 6; gB = 3; diff = 3
-#162611: B = 3; gB = 2; diff = 1
-#163056: B = 9; gB = 7; diff = 2
-#165648: B = 6; gB = 5; diff = 1
-#165762: B = 3; gB = 2; diff = 1
-#167257: B = 5; gB = 4; diff = 1
-#167841: B = 6; gB = 5; diff = 1
-#167916: B = 6; gB = 5; diff = 1
-#168679: B = 8; gB = 7; diff = 1
-#170335: B = 8; gB = 7; diff = 1
-#170531: B = 5; gB = 4; diff = 1
-#171644: B = 6; gB = 5; diff = 1
-#172002: B = 7; gB = 6; diff = 1
-#172431: B = 7; gB = 6; diff = 1
-#173044: B = 5; gB = 4; diff = 1
-#173759: B = 5; gB = 4; diff = 1
-#175148: B = 6; gB = 5; diff = 1
-#176798: B = 7; gB = 6; diff = 1
-#176955: B = 4; gB = 3; diff = 1
-#177529: B = 5; gB = 4; diff = 1
-#177987: B = 5; gB = 4; diff = 1
-#178720: B = 4; gB = 3; diff = 1
-#179530: B = 5; gB = 4; diff = 1
-#179587: B = 4; gB = 3; diff = 1
-#180016: B = 5; gB = 4; diff = 1
-#180779: B = 3; gB = 2; diff = 1
-#181057: B = 5; gB = 4; diff = 1
-#181167: B = 4; gB = 3; diff = 1
-#181354: B = 6; gB = 5; diff = 1
-#181529: B = 5; gB = 4; diff = 1
-#181979: B = 5; gB = 4; diff = 1
-#182066: B = 3; gB = 2; diff = 1
-#183011: B = 4; gB = 3; diff = 1
-#184060: B = 3; gB = 2; diff = 1
-#184313: B = 4; gB = 3; diff = 1
-#184399: B = 6; gB = 5; diff = 1
-#185228: B = 6; gB = 5; diff = 1
-#185717: B = 4; gB = 3; diff = 1
-#186261: B = 4; gB = 3; diff = 1
-#186543: B = 7; gB = 6; diff = 1
-#187304: B = 7; gB = 6; diff = 1
-#187820: B = 5; gB = 4; diff = 1
-#188579: B = 8; gB = 7; diff = 1
-#189415: B = 5; gB = 4; diff = 1
-#190736: B = 4; gB = 3; diff = 1
-#191360: B = 3; gB = 2; diff = 1
-#192988: B = 3; gB = 2; diff = 1
-#193171: B = 4; gB = 3; diff = 1
-#193366: B = 9; gB = 8; diff = 1
-#194278: B = 7; gB = 6; diff = 1
-#194377: B = 3; gB = 2; diff = 1
-#194845: B = 6; gB = 5; diff = 1
-#195687: B = 6; gB = 5; diff = 1
-#195792: B = 6; gB = 5; diff = 1
-#196274: B = 4; gB = 3; diff = 1
-#197517: B = 4; gB = 3; diff = 1
-#197734: B = 4; gB = 3; diff = 1
-#198600: B = 5; gB = 4; diff = 1
-#198976: B = 3; gB = 2; diff = 1
-#199168: B = 4; gB = 3; diff = 1
-#200982: B = 3; gB = 2; diff = 1
-#201457: B = 5; gB = 4; diff = 1
-#201819: B = 5; gB = 4; diff = 1
-#202008: B = 5; gB = 4; diff = 1
-#203787: B = 7; gB = 6; diff = 1
-#204643: B = 6; gB = 5; diff = 1
-#205416: B = 6; gB = 5; diff = 1
-#206005: B = 5; gB = 4; diff = 1
-#206858: B = 6; gB = 5; diff = 1
-#207862: B = 3; gB = 2; diff = 1
-#208436: B = 4; gB = 3; diff = 1
-#209518: B = 3; gB = 2; diff = 1
-#209712: B = 5; gB = 3; diff = 2
-#209773: B = 4; gB = 3; diff = 1
-#209871: B = 6; gB = 5; diff = 1
-#210053: B = 5; gB = 4; diff = 1
-#210262: B = 6; gB = 5; diff = 1
-#210285: B = 6; gB = 5; diff = 1
-#210804: B = 4; gB = 3; diff = 1
-#210981: B = 6; gB = 5; diff = 1
-#211237: B = 4; gB = 3; diff = 1
-#211324: B = 5; gB = 4; diff = 1
 
-363 differences (0.17 %)
-363 positive differences
+1751 differences (i.e. 0.165 %)
+1751 positive differences
 0 negative differences
 
-13 cases with diff = 2
-1 cases with diff = 3
-no case with diff > 3
+67 cases with diff = 2
+6 cases with diff = 3
+1 cases with diff = 4
+no case with diff > 4
 
 
+;;; Large differences:
+#161579: B = 6; gB = 3; diff = 3
+#421802: B = 10; gB = 7; diff = 3
+#497756: B = 6; gB = 3; diff = 3
+#680433: B = 6; gB = 3; diff = 3
+#870108: B = 7; gB = 4; diff = 3
+#903492: B = 6; gB = 3; diff = 3
+
+#2862: B = 6; gB = 2; diff = 4
 
 
 
@@ -1630,12 +835,27 @@ no case with diff > 3
     ;106573
     ;127686
     ;191335
-    212416
+    ;212416
+    ;382296
+    1062382
 )
-915 differences (0.43 %)
-915 positive differences
+4390 differences (i.e. 0.413 %)
+4390 positive differences
 0 negative differences
 
-47 cases with diff = 2 (0.022 %)
-2 cases with diff = 3 (0.022 %)
-no case with diff > 3 
+225 cases with diff = 2 (0.0201 %)
+18 cases with diff = 3
+1 cases with diff = 4
+2 cases with diff = 5
+1 cases with diff = 6
+no case with diff > 6
+
+Large differences (remember that gW and B do not have any a priori relation)
+#336080: W = 9; gB = 5; diff = 4 (and B = 5, gW = 6): gB = B < gW < W
+
+#2862: W = 7; gB = 2; diff = 5 (and B = 6, gW = 2): gB = gW < B < W
+#903492: W = 8; gB = 3; diff = 5 (and B = 6, gW = 3): gB = gW < B < W
+
+#421802: W = 13; gB = 7; diff = 6 (and gW = 7, B = 10): gB = gW < B < W
+
+
