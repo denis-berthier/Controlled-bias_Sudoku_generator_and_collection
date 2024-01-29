@@ -66,7 +66,6 @@
 
 ;;; You now need only to define the CBGC folder:
 (defglobal ?*CBGC* = (str-cat ?*CSP-Rules* "CBGC/"))
-(defglobal ?*CBGC* = (str-cat "/Users/berthier/Documents/Projets/CSP-Rules/Controlled-bias_Sudoku_generator_and_collection" "/"))
 
 
 
@@ -622,11 +621,6 @@ real unbiased distribution: (99.65 0.333 0.0140 0.000797 5.58e-05 1.59e-05 0.0 0
     gW
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-W-ratings.txt")
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-gW-ratings.txt")
-    ;1168353
-    ;1529243
-    ;1933900
-    ;3207961
-    ;4481101
     5926343
 )
 
@@ -757,27 +751,24 @@ The following results are based on the 1,062,382 of the first 50 "small" collect
     gB
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-gW-ratings.txt")
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-gB-ratings.txt")
-    ;21375
-    ;106573
-    ;127686
-    ;148984
-    ;191335
-    ;212416
-    ;382296
-    1062382
+    3207961
 )
 
-2189 differences (i.e. 0.206 %)
-2189 positive differences
+6541 differences (i.e. 0.204 %)
+6541 positive differences
 0 negative differences
 
-70 cases with diff = 2
-2 cases with diff = 3
+188 cases with diff = 2
+6 cases with diff = 3
 no case with diff > 3
 
 Large differences:
 #247111: gW = 12; gB = 9; diff = 3
 #861410: gW = 9; gB = 6; diff = 3
+#1483823: gW = 13; gB = 10; diff = 3
+#1847392: gW = 11; gB = 8; diff = 3
+#1972661: gW = 9; gB = 6; diff = 3
+#2610394: gW = 8; gB = 5; diff = 3
 
 
 
@@ -790,21 +781,16 @@ Large differences:
     gB
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-B-ratings.txt")
     (str-cat ?*CBGC* "GLOBAL-CB-RESULTS/all-gB-ratings.txt")
-    ;21375
-    ;106573
-    ;127686
-    ;191335
-    ;382296
-    1062382
+    3207961
 )
 
-1751 differences (i.e. 0.165 %)
-1751 positive differences
+5244 differences (i.e. 0.163 %)
+5244 positive differences
 0 negative differences
 
-67 cases with diff = 2
-6 cases with diff = 3
-1 cases with diff = 4
+197 cases with diff = 2
+19 cases with diff = 3
+2 cases with diff = 4
 no case with diff > 4
 
 
@@ -815,8 +801,10 @@ no case with diff > 4
 #680433: B = 6; gB = 3; diff = 3
 #870108: B = 7; gB = 4; diff = 3
 #903492: B = 6; gB = 3; diff = 3
+...
 
 #2862: B = 6; gB = 2; diff = 4
+#2678196: B = 6; gB = 2; diff = 4
 
 
 
@@ -837,24 +825,29 @@ no case with diff > 4
     ;191335
     ;212416
     ;382296
-    1062382
+    ;1062382
+    3207961
 )
-4390 differences (i.e. 0.413 %)
-4390 positive differences
+13233 differences (i.e. 0.412 %)
+13233 positive differences
 0 negative differences
 
-225 cases with diff = 2 (0.0201 %)
-18 cases with diff = 3
-1 cases with diff = 4
-2 cases with diff = 5
+660 cases with diff = 2 (0.0206 %)
+63 cases with diff = 3
+3 cases with diff = 4
+4 cases with diff = 5
 1 cases with diff = 6
 no case with diff > 6
 
 Large differences (remember that gW and B do not have any a priori relation)
 #336080: W = 9; gB = 5; diff = 4 (and B = 5, gW = 6): gB = B < gW < W
+#2678196: W = 6; gB = 2; diff = 4
+#3067241: W = 7; gB = 3; diff = 4
 
 #2862: W = 7; gB = 2; diff = 5 (and B = 6, gW = 2): gB = gW < B < W
 #903492: W = 8; gB = 3; diff = 5 (and B = 6, gW = 3): gB = gW < B < W
+#1095754: W = 12; gB = 7; diff = 5
+#2631235: W = 14; gB = 9; diff = 5
 
 #421802: W = 13; gB = 7; diff = 6 (and gW = 7, B = 10): gB = gW < B < W
 
