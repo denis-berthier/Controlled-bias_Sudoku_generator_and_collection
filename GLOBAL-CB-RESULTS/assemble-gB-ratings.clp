@@ -84,10 +84,6 @@
  cat ../SMALL-CB-COLLECTIONS/199/199-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/211/211-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/223/223-gB-ratings.txt >> all-gB-ratings.txt
-
-
-
-THE FOLLOWING FILES ARE NOT PRESENT
  cat ../SMALL-CB-COLLECTIONS/227/227-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/229/229-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/233/233-gB-ratings.txt >> all-gB-ratings.txt
@@ -135,6 +131,10 @@ THE FOLLOWING FILES ARE NOT PRESENT
  cat ../SMALL-CB-COLLECTIONS/487/487-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/491/491-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/499/499-gB-ratings.txt >> all-gB-ratings.txt
+
+
+
+THE FOLLOWING FILES ARE NOT PRESENT
  cat ../SMALL-CB-COLLECTIONS/503/503-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/509/509-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/521/521-gB-ratings.txt >> all-gB-ratings.txt
