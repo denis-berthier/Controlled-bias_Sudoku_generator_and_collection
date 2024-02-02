@@ -113,11 +113,11 @@ Each folder with name \<xxx\> contains various files:
 
 * an \<xxx\>-B-ratings.txt file, which contains the corresponding B-ratings; 
 
+* an \<xxx\>-gB-ratings.txt file, which contains the corresponding gB-ratings; 
+
 * an \<xxx\>-SER.txt file, which contains the corresponding SER ratings;
 
-* an \<xxx\>-FPGXnoU-ratings.txt file, which contains the corresponding FGPX ratings with rules for uniqueness disabled. (FPGX is a faster version of SER, with some problems of isomorphism-dependency corrected and with rules for uniqueness de-activated. It is now included in the PROGRAMS folder, where more details about it can be found in the local README.md file.).<br>
-
-Moreover, each of the first 97 folders contains a \<xxx\>-gB-ratings.txt file for the corresponding gB-ratings.<br><br>
+* an \<xxx\>-FPGXnoU-ratings.txt file, which contains the corresponding FGPX ratings with rules for uniqueness disabled. (FPGX is a faster version of SER, with some problems of isomorphism-dependency corrected and with rules for uniqueness de-activated. It is now included in the PROGRAMS folder, where more details about it can be found in the local README.md file.).<br><br>
 
 
 
@@ -131,7 +131,7 @@ All the files in the same "small" folder have the same length.<br><br>
 As for the tools used for the calculations: <br> 
 
 
-* All the calculations for nb-clues, nb-cands-after-BRT, nb-cands-after-W1, W-ratings and gW-ratings were done with the current version of SudoRules-V20.1 (the Sudoku part of [CSP-Rules]) as of this writing (2023, Nov. 24).<br>
+* All the calculations for nb-clues, nb-cands-after-BRT, nb-cands-after-W1, W-ratings and gW-ratings were done with the current version of SudoRules-V20.1 (the Sudoku part of [CSP-Rules]) as of this writing (2024, Feb. 02).<br>
 * All the calculations for the B-ratings were done with the current version of [SHC] as of this writing.<br>
 * All the calculations for the gB-ratings were done with a non-published version of [SHC] (slower than the current one that doesn't have g-candidates).<br>
 * All the calculations for the FPGX-noU ratings were done with [FPGX], a slightly faster variant of SER, with some of the isomorphism-dependency problems of SER solved, including modifications by "1to9only", "iksudoku" and "creint").<br><br><br><br>
@@ -143,7 +143,7 @@ As for the tools used for the calculations: <br>
 Whereas the previous release of this project had global files for the W ratings, nb-clues and SER, this is no longer the case. Instead, there are Unix scripts for assembling such files from the available small collections.<br>
 More precisely, for each file type \<ttt\> in any of the SMALL-CB-COLLECTIONS sub-folders, the GLOBAL-CB-RESULTS folder contains an assemble-\<ttt\>.clp file (e.g. "assemble-puzzles.txt", "assemble-nb-clues.txt", "assemble-W-ratings.txt"...), which includes:<br>
 * a Unix script for generating the corresponding global file,  <br>
-* a CLIPS function for generating the Unix script.<br>
+* a CLIPS function for generating this Unix script.<br>
 The Unix scripts must be run from the "GLOBAL-CB-RESULTS" folder.<br>
 
 Global files resulting from the above scripts are named all-\<ttt\>.text (e.g. "all-puzzles.txt", "all-nb-clues.txt", "all-W-ratings.txt", "all-gW-ratings.txt"...).<br>
@@ -171,7 +171,7 @@ It contains:
 * results of their execution;
 * comments on the results.<br>
 
-It is the most up-to-date version of these results, with all the calculations done on the whole collection of 5,926,343 controlled-bias puzzles (except the gB ratings, that are restricted to the first 97 "small" collections, i.e. to 3,207,961).<br>
+It is the most up-to-date version of these results, with all the calculations done on the whole collection of 5,926,343 controlled-bias puzzles.<br>
 Notice however that, in addition to the results here, [CSP-Rules-Examples] has a cbg-000 folder in its Sudoku examples folder where more ratings are computed and compared (e.g. S+W, S+gW, W+uniqueness...). Considering the computation times all these ratings required, this was done for only a small part (the first 21,375) of the full controlled-bias collection (and  this was enough for the additional conclusions drawn for them).<br><br><br><br>
 
 
@@ -185,7 +185,7 @@ The Controlled-bias_Sudoku_generator_and_collection is distributed under the GNU
 
 ## 9. ACKNOWLEDGMENTS<br>
 * Thanks are due to “Eleven” for implementing the first modification (suexg-cb) of a well-known top-down generator (suexg, written in C) to make it compliant with my specification of controlled-bias, and then several faster versions of it; this allowed to turn the whole idea into reality. Thanks to Paul Isaacson for adapting Brian Turner’s fast solver so that it could be used to replace the solver part of suexg. Thanks to Glenn Fowler (alias gsf) for providing an a priori unbiased source of complete grids: the full compressed collection of their equivalence classes (with respect to Sudoku isomorphisms) together with a fast decompressor allowing to use it as the direct input to the generator. Thanks also, for discussions and/or various contributions, to Allan Barker, Coloin, David P. Bird, Mike Metcalf, Red Ed (who was first to suggest the existence of a bias in the current generators). The informal collaboration that the controlled-bias idea sprouted on the late Sudoku Player's Forum was very productive: due to several independent optimisations, the last version of suexg-cb (which does not retain much of the original suexg code) is 200 times faster than the first.
-* Thanks are also due to François Cordoliani for developing the Sudoku Hierarchical Classifier ([SHC]). It allowed to compute the B ratings for the whole collection, which would have taken much too long with the SudoRules implementation of braids.<br><br><br><br>
+* Thanks are also due to François Cordoliani for developing the Sudoku Hierarchical Classifier ([SHC]). It allowed to compute the B and gB ratings for the whole collection, which would have taken much too long with the SudoRules implementation of braids or g-braids.<br><br><br><br>
 
 
 
