@@ -131,10 +131,6 @@
  cat ../SMALL-CB-COLLECTIONS/487/487-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/491/491-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/499/499-gB-ratings.txt >> all-gB-ratings.txt
-
-
-
-THE FOLLOWING FILES ARE NOT PRESENT
  cat ../SMALL-CB-COLLECTIONS/503/503-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/509/509-gB-ratings.txt >> all-gB-ratings.txt
  cat ../SMALL-CB-COLLECTIONS/521/521-gB-ratings.txt >> all-gB-ratings.txt
