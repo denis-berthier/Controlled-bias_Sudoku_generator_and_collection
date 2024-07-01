@@ -103,7 +103,11 @@ Each folder with name \<xxx\> contains various files:
 
 * an \<xxx\>-nb-clues.txt file, which contains the corresponding numbers of clues; 
 
-* an \<xxx\>-nb-cands-after-BRT.txt file, which contains the corresponding numbers of candidates remaining after rules in BRT (i.e. Singles plus eliminations by direct contradictions arising from them) have been applied until no more of these rules can be applied; 
+* an \<xxx\>-nb-cands.txt file, which contains the corresponding numbers of candidates at the start; 
+
+* an \<xxx\>-nb-clues-after-BRT.txt file, which contains the corresponding numbers of clues after rules in BRT (i.e. Singles plus eliminations by direct contradictions arising from them) have been applied until no more of these rules can be applied; 
+
+* an \<xxx\>-nb-cands-after-BRT.txt file, which contains the corresponding numbers of candidates remaining after rules in BRT have been applied until no more of these rules can be applied; 
 
 * an \<xxx\>-nb-cands-after-W1.txt file, which contains the corresponding numbers of candidates remaining after rules in W1 (i.e. BRT plus whips[1]) have been applied; 
 
@@ -165,7 +169,7 @@ However, you can use the scripts in almost unrestricted ways by selecting only t
 
 
 
-## 7. THE "CB-stats.clp" FILE<br>
+## 7. THE "Basic-stats" and "CB-stats.clp" FILES<br>
 It contains:
 * SudoRules commands for computing the statistical results exploiting the full collection of puzzles and ratings;
 * results of their execution;
@@ -201,6 +205,7 @@ All the references mentioned below are available:
 
 ### Books<br>
 * [HCCS] : BERTHIER D., Hierachical Classifications in Constraint Satisfaction, Lulu.com Publishers, October 2023.<br>
+* [HCCS2] : BERTHIER D., Hierachical Classifications in Constraint Satisfaction (Second Edition), Lulu.com Publishers, July 2024.<br>
 * [PBCS1]: BERTHIER D., Pattern-Based Constraint Satisfaction and Logic Puzzles, Lulu.com Publishers, July 2012.<br>
 * [PBCS2]: BERTHIER D., Pattern-Based Constraint Satisfaction and Logic Puzzles (Second Edition), Lulu.com Publishers, November 2015.<br>
 * [PBCS3]: BERTHIER D., Pattern-Based Constraint Satisfaction and Logic Puzzles (Third Edition), Lulu.com Publishers, November 2021.<br>
