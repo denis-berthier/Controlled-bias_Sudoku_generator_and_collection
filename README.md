@@ -3,7 +3,9 @@
 ## 
 ## A large collection (~6M) of minimal Sudoku puzzles generated with a controlled-bias generator, intended to allow the easy computation of unbiased statistics + associated results about ratings, correlation and distributions.</b><br><br><br>
 
-DOI 10.5281/zenodo.17491457
+<a href="https://doi.org/10.5281/zenodo.17491457"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.17491457.svg" alt="DOI"></a>
+
+
 
 ## 1. INTRODUCTION<br>
 A Sudoku puzzle is called _minimal_ if it has a unique solution and any puzzle obtained from it by deleting one clue (or "given") has several solutions. 
